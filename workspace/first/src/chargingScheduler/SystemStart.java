@@ -39,9 +39,39 @@ import jade.wrapper.*;
 
 public class SystemStart {
 	
-	private final static int carAgents = 6;
+	
+	private class times{
+		
+		Boolean[] freeTimes = new Boolean[24];
+		
+		public times(int...arguments)
+		{
+			for (int a : arguments)
+			{
+				freeTimes[a] = true;
+			}
+		}
+		
+		public Boolean isFree(int t)
+		{
+			if (freeTimes[t])
+			{
+				return true;
+			}
+			
+			return false;
+		}
+	}
+	
+	private final static int carAgents = 3;
 	private final static int timeForCharge = 2;
 	private final static int maxLoadCapacity = 60;
+	private final static int[] carBatteryMax = {100, 50, 200};
+	private final static int[] carRequiredCharge = {40, 0, 200};
+	private final static times[] carTimes = new times[3];
+	
+	
+	
 
 	public static void main(String[] args) throws StaleProxyException, InterruptedException {
 		// Get a hold to the JADE runtime
@@ -57,6 +87,8 @@ public class SystemStart {
 		System.out.println(">>>>>>>>>>>>>>> Starting up a CounterAgent...");
 		AgentController agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
 		agentCtrl.start();
+		
+		carTimes[0] = new times(1);
 		
 		for (int i=1; i<=carAgents; i++)
 		{

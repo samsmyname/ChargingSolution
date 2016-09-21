@@ -45,7 +45,10 @@ public class MasterScheduler extends Agent {
         				{
         					
         				}
+        				System.out.println(c.AID);	
         			}
+        			
+        			
         			
         			String msgString = msg.getContent();
         			System.out.println("Car ID sent: " + msgString);
@@ -65,6 +68,11 @@ public class MasterScheduler extends Agent {
 	}
 	
 	private void geneticAlgorithm()
+	{
+		
+	}
+	
+	private void evolutionAlgorithm()
 	{
 		
 	}
