@@ -5,4 +5,6 @@
 <fullyQualifiedTypeName name="jade.lang.acl.ACLMessage"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="week4.CounterAgent"/>
+<fullyQualifiedTypeName name="java.net.ServerSocket"/>
 </qualifiedTypeNameHistroy>

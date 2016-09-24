@@ -64,7 +64,6 @@ public class SystemStart {
 		int port = serverSocket.getLocalPort();
 
 		//int serverSocketInt =  Integer.parseInt(serverSocket.toString());
-		
 		Profile pMain = new ProfileImpl(null, port, null);
 		pMain.setParameter(Profile.GUI, "true");
 		ContainerController mainCtrl = rt.createMainContainer(pMain);
