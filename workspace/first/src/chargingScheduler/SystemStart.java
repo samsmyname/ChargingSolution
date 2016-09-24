@@ -58,7 +58,7 @@ public class SystemStart {
 		// Launch the Main Container (with the administration GUI on top) listening on available port
 		System.out.println(">>>>>>>>>>>>>>> Launching the platform Main Container...");
 	
-		// Listen to the available port
+		// Listen to the available port.....
 		ServerSocket serverSocket;
 		serverSocket = new ServerSocket(0);
 		int port = serverSocket.getLocalPort();
