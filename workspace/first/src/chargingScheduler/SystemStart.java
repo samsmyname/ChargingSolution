@@ -23,10 +23,12 @@ Boston, MA  02111-1307, USA.
 
 package chargingScheduler;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+
 import jade.core.Runtime;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
-
 import jade.wrapper.*;
 
 /**
@@ -39,47 +41,30 @@ import jade.wrapper.*;
 
 public class SystemStart {
 	
-	
-	private class times{
-		
-		Boolean[] freeTimes = new Boolean[24];
-		
-		public times(int...arguments)
-		{
-			for (int a : arguments)
-			{
-				freeTimes[a] = true;
-			}
-		}
-		
-		public Boolean isFree(int t)
-		{
-			if (freeTimes[t])
-			{
-				return true;
-			}
-			
-			return false;
-		}
-	}
-	
 	private final static int carAgents = 3;
 	private final static int timeForCharge = 2;
 	private final static int maxLoadCapacity = 60;
 	private final static int[] carBatteryMax = {100, 50, 200};
 	private final static int[] carRequiredCharge = {40, 0, 200};
-	private final static times[] carTimes = new times[3];
+	private final static Times[] carTimes = new Times[3];
 	
 	
 	
 
-	public static void main(String[] args) throws StaleProxyException, InterruptedException {
+	public static void main(String[] args) throws StaleProxyException, InterruptedException, IOException {
 		// Get a hold to the JADE runtime
 		Runtime rt = Runtime.instance();
 		
-		// Launch the Main Container (with the administration GUI on top) listening on port 8888
+		// Launch the Main Container (with the administration GUI on top) listening on available port
 		System.out.println(">>>>>>>>>>>>>>> Launching the platform Main Container...");
-		Profile pMain = new ProfileImpl(null, 8888, null);
+	
+		// Listen to the available port.....
+		ServerSocket serverSocket;
+		serverSocket = new ServerSocket(0);
+		int port = serverSocket.getLocalPort();
+
+		//int serverSocketInt =  Integer.parseInt(serverSocket.toString());
+		Profile pMain = new ProfileImpl(null, port, null);
 		pMain.setParameter(Profile.GUI, "true");
 		ContainerController mainCtrl = rt.createMainContainer(pMain);
 
@@ -88,7 +73,7 @@ public class SystemStart {
 		AgentController agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
 		agentCtrl.start();
 		
-		carTimes[0] = new times(1);
+		carTimes[0] = new Times(1);
 		
 		for (int i=1; i<=carAgents; i++)
 		{
