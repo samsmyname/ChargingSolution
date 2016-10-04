@@ -2,12 +2,13 @@ package chargingScheduler;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.*;
 
 public class SwingInterface {
-	  private JFrame mainFrame;
+	   private JFrame mainFrame;
 	   private JLabel headerLabel;
 	   private JLabel statusLabel;
 	   private JPanel controlPanel;
@@ -23,7 +24,7 @@ public class SwingInterface {
 
 	   private void prepareGUI(){
 	      mainFrame = new JFrame("Car Agent Interface");
-	      mainFrame.setSize(400,400);
+	      mainFrame.setSize(600,300);
 	      mainFrame.setLayout(new GridLayout(3, 1));
 	      mainFrame.addWindowListener(new WindowAdapter() {
 	         public void windowClosing(WindowEvent windowEvent){
@@ -47,38 +48,43 @@ public class SwingInterface {
 	   private void showTextFieldDemo(){
 	      headerLabel.setText("Car Charging Schedule"); 
 	      
-	      JSpinner startTimeSpinner = new JSpinner( new SpinnerDateModel() );
+	      JSpinner startTimeSpinner = new JSpinner(new SpinnerDateModel());
 	      JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(startTimeSpinner, "HH:mm:ss");
 	      startTimeSpinner.setEditor(timeEditor);
 	      startTimeSpinner.setValue(new Date()); 
 	      
 	      
-	      JSpinner endTimeSpinner = new JSpinner( new SpinnerDateModel() );
+	      JSpinner endTimeSpinner = new JSpinner(new SpinnerDateModel());
 	      JSpinner.DateEditor endTimeEditor = new JSpinner.DateEditor(endTimeSpinner, "HH:mm:ss");
 	      endTimeSpinner.setEditor(endTimeEditor);
 	      endTimeSpinner.setValue(new Date()); 
 	      
 
-	      JLabel  userName= new JLabel("User ID: ", JLabel.RIGHT);
-	      JLabel  startTime = new JLabel("Start Time: ", JLabel.CENTER);
-	      JLabel  endTime = new JLabel("End Time: ", JLabel.CENTER);
-	      final JTextField userNameText = new JTextField(6);
+	      JLabel  carRegNum= new JLabel("<html>Car Reg. Number:</html>", JLabel.RIGHT);
+	      JLabel  startTime = new JLabel("<html>Start Time:</html>", JLabel.CENTER);
+	      JLabel  endTime = new JLabel("<html>End Time:</html>", JLabel.CENTER);
+	      final JTextField carRegNumLbl = new JTextField(6);
 	    
 
 	      JButton loginButton = new JButton("Send Schedule");
 	      
 	      loginButton.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {     
-	            String data = "Username " + userNameText.getText();
-	            data += ", " +" Start Time:"+ startTimeSpinner.getValue();  
-	            data +=" , " + " Finish Time:" +endTimeSpinner.getValue();
+	         public void actionPerformed(ActionEvent e) {   
+	        	String startTime = new SimpleDateFormat("HH:mm").format(startTimeSpinner.getValue());
+	        	String endTime = new SimpleDateFormat("HH:mm").format(endTimeSpinner.getValue());
+	            String data = "Car Id:" + carRegNumLbl.getText();
+	            data += ", " +" Start Time:"+ startTime;//startTimeSpinner.getValue();  
+	            data +=" , " + " End Time:" +endTime;//endTimeSpinner.getValue();
+	            statusLabel.setText(data);    
+	            // FIXME Is this the correct way to do this???? or should we inherit CarAgent class????
 	            
-	            statusLabel.setText(data);        
+	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime) ;
+	            
 	         }
 	      }); 
 
-	      controlPanel.add(userName);
-	      controlPanel.add(userNameText);
+	      controlPanel.add(carRegNum);
+	      controlPanel.add(carRegNumLbl);
 	      
 	      controlPanel.add(startTime);
 	      controlPanel.add(startTimeSpinner);

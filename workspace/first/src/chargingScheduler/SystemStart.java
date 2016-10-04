@@ -47,22 +47,23 @@ public class SystemStart {
 	private final static int[] carBatteryMax = {100, 50, 200};
 	private final static int[] carRequiredCharge = {40, 0, 200};
 	private final static Times[] carTimes = new Times[3];
-	
-	
-	
 
-	public static void main(String[] args) throws StaleProxyException, InterruptedException, IOException {
+	public static void main(String[] args) {//throws StaleProxyException, InterruptedException, IOException {
 		// Get a hold to the JADE runtime
 		Runtime rt = Runtime.instance();
-		
-		// Launch the Main Container (with the administration GUI on top) listening on available port
-		System.out.println(">>>>>>>>>>>>>>> Launching the platform Main Container...");
-	
-		// Listen to the available port.....
-		ServerSocket serverSocket;
-		serverSocket = new ServerSocket(0);
-		int port = serverSocket.getLocalPort();
+		ServerSocket serverSocket = null;
 
+		// Launch the Main Container (with the administration GUI on top)
+		// listening on available port
+		System.out.println(">>>>>>>>>>>>>>> Launching the platform Main Container...");
+		try {
+			// Create server socket and bind with available port.....
+			serverSocket = new ServerSocket(0);
+		} catch (Exception e) {
+			System.out.println("***** Error occured while constructing the server socket **** " + e);
+		}
+		int port = serverSocket.getLocalPort();
+		System.out.println("Server has binded to the port : "+ port);
 		//int serverSocketInt =  Integer.parseInt(serverSocket.toString());
 		Profile pMain = new ProfileImpl(null, port, null);
 		pMain.setParameter(Profile.GUI, "true");
@@ -70,19 +71,27 @@ public class SystemStart {
 
 		// Create and start an agent of class MasterScheduler
 		System.out.println(">>>>>>>>>>>>>>> Starting up a CounterAgent...");
-		AgentController agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
-		agentCtrl.start();
-		
-		carTimes[0] = new Times(1);
-		
-		for (int i=1; i<=carAgents; i++)
-		{
-			// Create and start an agent of class CarAgent
-			System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
-			AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent" + i, CarAgent.class.getName(), new Object[0]);
-			agentCtrlc.start();
-		}	
-		
-
+		AgentController agentCtrl;
+		try {
+			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
+			agentCtrl.start();
+			carTimes[0] = new Times(1);
+			
+			for (int i=1; i<=carAgents; i++)
+			{
+				// Create and start an agent of class CarAgent
+				System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
+				AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent" + i, CarAgent.class.getName(), new Object[0]);
+				agentCtrlc.start();
+			}	
+		} catch (StaleProxyException e) {
+			System.out.println("******* Error occured while starting up the agent ******* "+ e);
+		}finally{
+			try {
+				serverSocket.close();
+			} catch (IOException e) {
+				System.out.println("******* Error occured while c ulosingp the agent ******* "+ e);
+			}
+		}
 	}
 }
