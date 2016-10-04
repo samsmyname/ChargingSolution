@@ -47,32 +47,44 @@ public class SwingInterface {
 	   private void showTextFieldDemo(){
 	      headerLabel.setText("Car Charging Schedule"); 
 	      
-	      JSpinner timeSpinner = new JSpinner( new SpinnerDateModel() );
-	      JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
-	      timeSpinner.setEditor(timeEditor);
-	      timeSpinner.setValue(new Date()); 
+	      JSpinner startTimeSpinner = new JSpinner( new SpinnerDateModel() );
+	      JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(startTimeSpinner, "HH:mm:ss");
+	      startTimeSpinner.setEditor(timeEditor);
+	      startTimeSpinner.setValue(new Date()); 
+	      
+	      
+	      JSpinner endTimeSpinner = new JSpinner( new SpinnerDateModel() );
+	      JSpinner.DateEditor endTimeEditor = new JSpinner.DateEditor(endTimeSpinner, "HH:mm:ss");
+	      endTimeSpinner.setEditor(endTimeEditor);
+	      endTimeSpinner.setValue(new Date()); 
 	      
 
 	      JLabel  userName= new JLabel("User ID: ", JLabel.RIGHT);
 	      JLabel  startTime = new JLabel("Start Time: ", JLabel.CENTER);
-	      JLabel  endTime = new JLabel("Start Time: ", JLabel.CENTER);
+	      JLabel  endTime = new JLabel("End Time: ", JLabel.CENTER);
 	      final JTextField userNameText = new JTextField(6);
-	      final JTextField timeSpinnerText = new JTextField(6);
 	    
 
 	      JButton loginButton = new JButton("Send Schedule");
 	      
 	      loginButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {     
-	            String data = "Username " + userNameText.getText();data += ", " +" Start Time:"+ timeSpinnerText.getText(); 
+	            String data = "Username " + userNameText.getText();
+	            data += ", " +" Start Time:"+ startTimeSpinner.getValue();  
+	            data +=" , " + " Finish Time:" +endTimeSpinner.getValue();
+	            
 	            statusLabel.setText(data);        
 	         }
 	      }); 
 
 	      controlPanel.add(userName);
 	      controlPanel.add(userNameText);
-	      controlPanel.add(startTime);   
-	      controlPanel.add(timeSpinner);
+	      
+	      controlPanel.add(startTime);
+	      controlPanel.add(startTimeSpinner);
+	      
+	      controlPanel.add(endTime);   
+	      controlPanel.add(endTimeSpinner);
 	      
 	      controlPanel.add(loginButton);
 	      mainFrame.setVisible(true);  

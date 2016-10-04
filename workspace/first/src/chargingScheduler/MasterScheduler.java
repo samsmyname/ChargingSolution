@@ -29,7 +29,7 @@ public class MasterScheduler extends Agent {
 	
 	protected void setup() 
     { 
-        System.out.println("Hello World. ");
+        System.out.println("-------------------- Starting MasterSchesuler --------------------");
         System.out.println("My name is "+ getLocalName()); 
         
         addBehaviour(new TickerBehaviour(this, 1000){
