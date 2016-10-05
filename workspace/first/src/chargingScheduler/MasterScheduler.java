@@ -32,7 +32,7 @@ public class MasterScheduler extends Agent {
 	
 	protected void setup() 
     { 
-        System.out.println("-------------------- Starting MasterSchesuler --------------------");
+        System.out.println("-------------------- Starting MasterScheduler --------------------");
         System.out.println("My name is "+ getLocalName()); 
         
         try {
@@ -81,14 +81,9 @@ public class MasterScheduler extends Agent {
 	
 	private void geneticAlgorithm() throws Exception
 	{
-		GeneticAlgorithm = new JGAP();
+		GeneticAlgorithm = new JGAP(3);
 	}
-	
-	private void evolutionAlgorithm()
-	{
-		
-	}
-	
+
 	private class Car{
 		String AID;
 		int Charge;
