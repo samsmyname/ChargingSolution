@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
   public class CarAgent extends Agent{ 
 	  //FIXME Is CarAgent gets the requirements from the user?
-	  private int carId;
+	  private int carId = 0;
 	  private String carRegNum;
 	  private String startTime;
 	  private String endTime;
@@ -27,9 +27,9 @@ import java.util.concurrent.ThreadLocalRandom;
 	  }
 	  
 	 
-      protected void setup(){ 
-    	  carId = ThreadLocalRandom.current().nextInt(100, 999 + 1);
-    	  
+      protected void setup(){
+    	  carId = 0123;
+
     	  ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
     	  msg.addReceiver(new AID("MasterScheduler", AID.ISLOCALNAME));
     	  msg.setLanguage("English");

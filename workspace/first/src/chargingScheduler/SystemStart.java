@@ -49,27 +49,18 @@ public class SystemStart {
 	private final static int[] carRequiredCharge = {40, 0, 200};
 	private final static Times[] carTimes = new Times[3];
 	private static ServerSocket serverSocket = null;
-	private static Profile pMain = null;
-	public static ContainerController mainCtrl = null;
-	
+	private Profile pMain = null;
+	public ContainerController mainCtrl = null;
 
-	public static void main(String[] args) {//throws StaleProxyException, InterruptedException, IOException {
-		// Get a hold to the JADE runtime
+	public SystemStart() {
 		Runtime rt = Runtime.instance();
-
-		// Launch the Main Container (with the administration GUI on top)
-		
-		System.out.println(">>>>>>>>>>>>>>> Launching the platform Main Container...");
 		setupProfile();
-		
 		pMain.setParameter(Profile.GUI, "true");
-		ContainerController mainCtrl = rt.createMainContainer(pMain);
+		mainCtrl = rt.createMainContainer(pMain);
 
-		SwingInterface  swingControlDemo = new SwingInterface();      
-	    swingControlDemo.showTextFieldDemo();
-	    
-	    
-		// Create and start an agent of class MasterScheduler
+		SwingInterface  swingControlDemo = new SwingInterface(this);
+		swingControlDemo.showTextFieldDemo();
+
 		System.out.println(">>>>>>>>>>>>>>> Starting up a CounterAgent...");
 		AgentController agentCtrl = null;
 		try {
@@ -79,12 +70,21 @@ public class SystemStart {
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
 		}
 	}
+	
 
-	public static void StartCarAgent(String carReg, String startTime, String endTime) {
+	public static void main(String[] args) {
+
+		// Launch the Main Container (with the administration GUI on top)
+		SystemStart ss = new SystemStart();
+
+	}
+
+	public void StartCarAgent(String carReg, String startTime, String endTime) {
 		try {
 			// Create and start an agent of class CarAgent
 			System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
-			AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent with registration " + carReg, "test", new Object[0]);
+			AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent with registration " + carReg, CarAgent.class.getName(), new Object[0]);
+
 			agentCtrlc.start();
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* " + e);
@@ -95,7 +95,7 @@ public class SystemStart {
 	 *  @setupServerSocket
 	 *   -Loop through port 4000-4010 to find free port and construct a new profile
 	 */
-	public static void setupProfile() {
+	public void setupProfile() {
 		int port = 8888;
 		try {
 			pMain = new ProfileImpl(null, port, null);
@@ -103,7 +103,7 @@ public class SystemStart {
 			System.out.println("***** Error Occured while constructing UDP Server Socket : "+ e);
 		} finally {
 			for (port = 8889; port < 8898; port++)
-				if (pMain == null) {
+				if(pMain == null) {
 					try {
 						pMain = new ProfileImpl(null, port, null);
 					} catch (Exception e) {

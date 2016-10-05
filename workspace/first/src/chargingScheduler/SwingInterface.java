@@ -22,15 +22,18 @@ public class SwingInterface {
 	   private JLabel headerLabel;
 	   private JLabel statusLabel;
 	   private JPanel controlPanel;
+	   SystemStart ss;
 
-	   public SwingInterface(){
-	      prepareGUI();
+	   public SwingInterface(SystemStart ss){
+
+		   this.ss = ss;
+		   prepareGUI();
 	   }
 
-	   public static void main(String[] args){
-		   SwingInterface  swingControlDemo = new SwingInterface();      
-	       swingControlDemo.showTextFieldDemo();
-	   }
+//	   public static void main(String[] args){
+//		   SwingInterface  swingControlDemo = new SwingInterface();
+//	       swingControlDemo.showTextFieldDemo();
+//	   }
 
 	   private void prepareGUI(){
 	      mainFrame = new JFrame("Car Agent Interface");
@@ -88,7 +91,7 @@ public class SwingInterface {
 	            statusLabel.setText(data);    
 	            // FIXME Is this the correct way to do this???? or should we inherit CarAgent class????
 	            
-	            SystemStart.StartCarAgent(carRegNumLbl.getText(), startTime, endTime);
+	            ss.StartCarAgent(carRegNumLbl.getText(), startTime, endTime);
 					
 	         }
 	      }); 

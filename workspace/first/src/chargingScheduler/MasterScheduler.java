@@ -30,33 +30,34 @@ public class MasterScheduler extends Agent {
 	protected void setup() 
     { 
         System.out.println("-------------------- Starting MasterSchesuler --------------------");
-        System.out.println("My name is "+ getLocalName()); 
+        System.out.println("My name is "+ getLocalName());
+
         
         addBehaviour(new TickerBehaviour(this, 1000){
         	protected void onTick(){
-        		
-        		ACLMessage msg = receive();
-        		
-        		while (msg != null)
-        		{
-        			for(Car c : cars)
-        			{
-        				if (c.AID == "") //FIXME
-        				{
-        					
-        				}
-        				System.out.println(c.AID);	
-        			}
-        			
-        			
-        			
-        			String msgString = msg.getContent();
-        			System.out.println("Car ID sent: " + msgString);
-        			cars.add(new Car(msgString) ); 
-        			
-        			System.out.println("Cars registered: " + String.valueOf(cars.size()));
-        			//System.out.println("test: " + msg.getSender());
-        			msg = receive();
+
+				ACLMessage msg = receive();
+				while (msg != null)
+				{
+					Car c = null;
+					if (cars != null && !cars.isEmpty()) {
+						c = cars.get(cars.size()-1);
+					}
+					String msgString = msg.getContent();
+					cars.add(new Car(msgString) );
+					msg = receive();
+					if (c != null) {
+						if (c.AID == "") {
+							System.out.println("No message");
+						} else {
+							System.out.println("Message is " + c.AID);
+						}
+					}
+				System.out.println("Car ID sent: " + msgString);
+
+				System.out.println("Cars registered: " + String.valueOf(cars.size()));
+				//System.out.println("test: " + msg.getSender());
+				msg = null;
         		} 
 
         	}
