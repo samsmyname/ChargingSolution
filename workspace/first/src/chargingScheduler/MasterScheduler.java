@@ -7,6 +7,7 @@ import jade.core.Agent;
 import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
 
+
 /*
 Functions:
 
@@ -23,6 +24,8 @@ Sends the individual schedules to car agents
 
 public class MasterScheduler extends Agent {
 
+	JGAP GeneticAlgorithm;
+	
 	int numberCars;	
 	
 	List<Car> cars = new ArrayList<Car>();
@@ -31,6 +34,13 @@ public class MasterScheduler extends Agent {
     { 
         System.out.println("-------------------- Starting MasterSchesuler --------------------");
         System.out.println("My name is "+ getLocalName()); 
+        
+        try {
+			geneticAlgorithm();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         addBehaviour(new TickerBehaviour(this, 1000){
         	protected void onTick(){
@@ -58,6 +68,8 @@ public class MasterScheduler extends Agent {
         			//System.out.println("test: " + msg.getSender());
         			msg = receive();
         		} 
+        		
+        		
 
         	}
         });
@@ -67,9 +79,9 @@ public class MasterScheduler extends Agent {
 		setup();
 	}
 	
-	private void geneticAlgorithm()
+	private void geneticAlgorithm() throws Exception
 	{
-		
+		GeneticAlgorithm = new JGAP();
 	}
 	
 	private void evolutionAlgorithm()
