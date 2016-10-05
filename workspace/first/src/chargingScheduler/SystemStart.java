@@ -75,20 +75,22 @@ public class SystemStart {
 		try {
 			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
 			agentCtrl.start();
-		//	carTimes[0] = new Times(1);
-			//TODO Move the CarAgent construction to SwingInterface
-			/*for (int i=1; i<=carAgents; i++)
-			{
-				// Create and start an agent of class CarAgent
-				System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
-				AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent" + i, CarAgent.class.getName(), new Object[0]);
-				agentCtrlc.start();
-			}	*/
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
 		}
 	}
-	
+
+	public static void StartCarAgent(String carReg, String startTime, String endTime) {
+		try {
+			// Create and start an agent of class CarAgent
+			System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
+			AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent with registration " + carReg, "test", new Object[0]);
+			agentCtrlc.start();
+		} catch (StaleProxyException e) {
+			System.out.println("******* Error occured while starting up the agent ******* " + e);
+		}
+	}
+
 	/**
 	 *  @setupServerSocket
 	 *   -Loop through port 4000-4010 to find free port and construct a new profile
