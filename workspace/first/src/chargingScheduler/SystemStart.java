@@ -75,15 +75,15 @@ public class SystemStart {
 		try {
 			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
 			agentCtrl.start();
-		//	carTimes[0] = new Times(1);
+			carTimes[0] = new Times(1);
 			//TODO Move the CarAgent construction to SwingInterface
-			/*for (int i=1; i<=carAgents; i++)
+			for (int i=1; i<=carAgents; i++)
 			{
 				// Create and start an agent of class CarAgent
 				System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
 				AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent" + i, CarAgent.class.getName(), new Object[0]);
 				agentCtrlc.start();
-			}	*/
+			}	
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
 		}
@@ -98,7 +98,7 @@ public class SystemStart {
 		try {
 			pMain = new ProfileImpl(null, port, null);
 		} catch (Exception e) {
-			System.out.println("***** Error Occured while constructing UDP Server Socket : "+ e);
+			System.out.println("***** Error Occured while binding to the port : "+ e);
 		} finally {
 			for (port = 8889; port < 8898; port++)
 				if (pMain == null) {

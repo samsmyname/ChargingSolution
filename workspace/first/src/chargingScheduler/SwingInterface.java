@@ -98,6 +98,7 @@ public class SwingInterface {
 						agentCtrlc = SystemStart.mainCtrl.createNewAgent("CarAgent", CarAgent.class.getName(), new Object[0]);
 						agentCtrlc.start();
 					} catch (StaleProxyException e1) {
+						System.out.println("******** Error Occured while constructing ");
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}

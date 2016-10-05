@@ -1,1 +1,1 @@
-http://ayeshas-mbp.home:58122/acc
+http://10.1.50.33:7778/acc
