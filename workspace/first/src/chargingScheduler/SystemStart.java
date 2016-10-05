@@ -40,14 +40,6 @@ import jade.wrapper.*;
  * @author Giovanni Iavarone - Michele Izzo
  */
 
-/**
- * @author AysHasi
- *
- */
-/**
- * @author AysHasi
- *
- */
 public class SystemStart {
 	
 	private final static int carAgents = 3;
