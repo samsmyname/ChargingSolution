@@ -1,5 +1,8 @@
 package chargingScheduler;
 
+import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -86,7 +89,20 @@ public class SwingInterface {
 	            // FIXME Is this the correct way to do this???? or should we inherit CarAgent class????
 	            
 	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime) ;
-	            
+	           
+					// Create and start an agent of class CarAgent
+	            	AgentController agentCtrl = null;
+					System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
+					AgentController agentCtrlc;
+					try {
+						agentCtrlc = SystemStart.mainCtrl.createNewAgent("CarAgent", CarAgent.class.getName(), new Object[0]);
+						agentCtrlc.start();
+					} catch (StaleProxyException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
 	         }
 	      }); 
 

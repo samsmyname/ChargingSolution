@@ -50,6 +50,7 @@ public class SystemStart {
 	private final static Times[] carTimes = new Times[3];
 	private static ServerSocket serverSocket = null;
 	private static Profile pMain = null;
+	public static ContainerController mainCtrl = null;
 	
 
 	public static void main(String[] args) {//throws StaleProxyException, InterruptedException, IOException {
@@ -74,23 +75,17 @@ public class SystemStart {
 		try {
 			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
 			agentCtrl.start();
-			carTimes[0] = new Times(1);
-			
-			for (int i=1; i<=carAgents; i++)
+		//	carTimes[0] = new Times(1);
+			//TODO Move the CarAgent construction to SwingInterface
+			/*for (int i=1; i<=carAgents; i++)
 			{
 				// Create and start an agent of class CarAgent
 				System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
 				AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent" + i, CarAgent.class.getName(), new Object[0]);
 				agentCtrlc.start();
-			}	
+			}	*/
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
-		}finally{
-			try {
-				serverSocket.close();
-			} catch (IOException e) {
-				System.out.println("******* Error occured while c ulosingp the agent ******* "+ e);
-			}
 		}
 	}
 	
