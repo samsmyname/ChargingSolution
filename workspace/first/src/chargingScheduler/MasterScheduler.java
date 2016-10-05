@@ -61,6 +61,7 @@ public class MasterScheduler extends Agent {
 				System.out.println("Cars registered: " + String.valueOf(cars.size()));
 				//System.out.println("test: " + msg.getSender());
 				msg = null;
+				
 				geneticAlgorithm();
         		} 
 

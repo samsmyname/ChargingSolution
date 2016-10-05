@@ -45,10 +45,11 @@ public class JGAP {
 	  
 	  IChromosome bestSolutionSoFar;
 	  
+	  System.out.println( "Calculating the best solution..." );
+	  
 	  for( int i = 0; i < MAX_ALLOWED_EVOLUTIONS; i++ )
 	  {
 		  population.evolve();
-		  System.out.println( myFunc.getFitnessValue(population.getFittestChromosome()));
 	  }
 	  
 	  bestSolutionSoFar = population.getFittestChromosome();

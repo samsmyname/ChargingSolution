@@ -22,11 +22,9 @@ public class ScheduleFitness extends FitnessFunction{
 	protected double evaluate(IChromosome a_subject) {
 		// For best possible schedule, fitness should be 150 with current weightings and settings.
 		
-		int fitness = 50; //Between 1 and 99
+		int fitness = 50; //Arbitrary starting value
 		
-		//Check  that every car has enough hours scheduled	//TODO
-		
-		int i = 1;
+		int i = 1;	// The car value that appears in the gene.
 		for (Car c : cars)
 		{
 			//Assume car needs 8 hours to charge - will be changed when code is written to get data from the car agents.
@@ -52,7 +50,7 @@ public class ScheduleFitness extends FitnessFunction{
 				}
 				else
 				{
-					fitness+=(100/cars.size());
+					fitness+=(100/cars.size());	//Massive boost if the solution meets all goals, weighted so that it is the same boost no matter how many cars.
 
 				}
 				
@@ -61,15 +59,11 @@ public class ScheduleFitness extends FitnessFunction{
 			{
 				fitness -= (int) Math.abs( Math.pow((hoursRequired-hoursSchedueled), 2))*3;
 			}
-
-			
-			
-			
 				
 			i++;
 		}
 
-		if (fitness<1)
+		if (fitness<1)		//Fitness value cannot go lower than 1 or an exception will be thrown.
 			fitness = 1;
 		
 		return fitness;
