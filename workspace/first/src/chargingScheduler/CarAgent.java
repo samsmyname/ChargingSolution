@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
   public class CarAgent extends Agent{ 
 	  //FIXME Is CarAgent gets the requirements from the user?
-	  private int carId;
+	  private int carId = 0;
 	  private String carRegNum;
 	  private String startTime;
 	  private String endTime;

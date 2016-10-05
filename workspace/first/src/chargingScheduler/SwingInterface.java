@@ -88,20 +88,7 @@ public class SwingInterface {
 	            statusLabel.setText(data);    
 	            // FIXME Is this the correct way to do this???? or should we inherit CarAgent class????
 	            
-	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime) ;
-	           
-					// Create and start an agent of class CarAgent
-	            	AgentController agentCtrl = null;
-					System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
-					AgentController agentCtrlc;
-					try {
-						agentCtrlc = SystemStart.mainCtrl.createNewAgent("CarAgent", CarAgent.class.getName(), new Object[0]);
-						agentCtrlc.start();
-					} catch (StaleProxyException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
+	            SystemStart.StartCarAgent(carRegNumLbl.getText(), startTime, endTime);
 					
 	         }
 	      }); 

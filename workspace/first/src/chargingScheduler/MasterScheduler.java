@@ -39,6 +39,7 @@ public class MasterScheduler extends Agent {
         		
         		while (msg != null)
         		{
+        			System.out.println("******Here");
         			for(Car c : cars)
         			{
         				if (c.AID == "") //FIXME
