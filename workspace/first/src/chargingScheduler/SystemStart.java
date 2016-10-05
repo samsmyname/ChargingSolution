@@ -86,7 +86,7 @@ public class SystemStart {
 			
 			for (int i=1; i<=carAgents; i++)
 			{
-				// Create and start an agent of class CarAgent
+				//Create and start an agent of class CarAgent
 				System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
 				AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent" + i, CarAgent.class.getName(), new Object[0]);
 				agentCtrlc.start();
