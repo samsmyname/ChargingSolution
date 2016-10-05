@@ -3,10 +3,12 @@ package chargingScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jgap.InvalidConfigurationException;
+
 import jade.core.Agent;
 import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
-
 
 /*
 Functions:
@@ -24,52 +26,43 @@ Sends the individual schedules to car agents
 
 public class MasterScheduler extends Agent {
 
-	JGAP GeneticAlgorithm;
-	
 	int numberCars;	
 	
 	List<Car> cars = new ArrayList<Car>();
 	
 	protected void setup() 
     { 
-        System.out.println("-------------------- Starting MasterScheduler --------------------");
-        System.out.println("My name is "+ getLocalName()); 
-        
-        try {
-			geneticAlgorithm();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        System.out.println("-------------------- Starting MasterSchesuler --------------------");
+        System.out.println("My name is "+ getLocalName());
+
         
         addBehaviour(new TickerBehaviour(this, 1000){
         	protected void onTick(){
-        		
-        		ACLMessage msg = receive();
-        		
-        		while (msg != null)
-        		{
-        			for(Car c : cars)
-        			{
-        				if (c.AID == "") //FIXME
-        				{
-        					
-        				}
-        				System.out.println(c.AID);	
-        			}
-        			
-        			
-        			
-        			String msgString = msg.getContent();
-        			System.out.println("Car ID sent: " + msgString);
-        			cars.add(new Car(msgString) ); 
-        			
-        			System.out.println("Cars registered: " + String.valueOf(cars.size()));
-        			//System.out.println("test: " + msg.getSender());
-        			msg = receive();
+
+				ACLMessage msg = receive();
+				while (msg != null)
+				{
+					Car c = null;
+					if (cars != null && !cars.isEmpty()) {
+						c = cars.get(cars.size()-1);
+					}
+					String msgString = msg.getContent();
+					cars.add(new Car(msgString) );
+					msg = receive();
+					if (c != null) {
+						if (c.AID == "") {
+							System.out.println("No message");
+						} else {
+							System.out.println("Message is " + c.AID);
+						}
+					}
+				System.out.println("Car ID sent: " + msgString);
+
+				System.out.println("Cars registered: " + String.valueOf(cars.size()));
+				//System.out.println("test: " + msg.getSender());
+				msg = null;
+				geneticAlgorithm();
         		} 
-        		
-        		
 
         	}
         });
@@ -79,22 +72,21 @@ public class MasterScheduler extends Agent {
 		setup();
 	}
 	
-	private void geneticAlgorithm() throws Exception
+	private void geneticAlgorithm()
 	{
-		GeneticAlgorithm = new JGAP(3);
-	}
-
-	private class Car{
-		String AID;
-		int Charge;
-		int prefStartTime;
-		int prefEndTime;
-		
-		private Car(String _AID)
-		{
-			AID = _AID;
-			//Charge = _Charge;
+		try {
+			new JGAP(cars);
+		} catch (InvalidConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
+	
+	private void evolutionAlgorithm()
+	{
+		
+	}
+	
+	
 	
 }

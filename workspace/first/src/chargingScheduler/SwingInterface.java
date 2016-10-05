@@ -22,15 +22,18 @@ public class SwingInterface {
 	   private JLabel headerLabel;
 	   private JLabel statusLabel;
 	   private JPanel controlPanel;
+	   SystemStart ss;
 
-	   public SwingInterface(){
-	      prepareGUI();
+	   public SwingInterface(SystemStart ss){
+
+		   this.ss = ss;
+		   prepareGUI();
 	   }
 
-	   public static void main(String[] args){
-		   SwingInterface  swingControlDemo = new SwingInterface();      
-	       swingControlDemo.showTextFieldDemo();
-	   }
+//	   public static void main(String[] args){
+//		   SwingInterface  swingControlDemo = new SwingInterface();
+//	       swingControlDemo.showTextFieldDemo();
+//	   }
 
 	   private void prepareGUI(){
 	      mainFrame = new JFrame("Car Agent Interface");
@@ -88,21 +91,7 @@ public class SwingInterface {
 	            statusLabel.setText(data);    
 	            // FIXME Is this the correct way to do this???? or should we inherit CarAgent class????
 	            
-	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime) ;
-	           
-					// Create and start an agent of class CarAgent
-	            	AgentController agentCtrl = null;
-					System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
-					AgentController agentCtrlc;
-					try {
-						agentCtrlc = SystemStart.mainCtrl.createNewAgent("CarAgent", CarAgent.class.getName(), new Object[0]);
-						agentCtrlc.start();
-					} catch (StaleProxyException e1) {
-						System.out.println("******** Error Occured while constructing ");
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
+	            ss.StartCarAgent(carRegNumLbl.getText(), startTime, endTime);
 					
 	         }
 	      }); 
