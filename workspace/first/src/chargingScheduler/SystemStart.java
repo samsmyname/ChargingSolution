@@ -25,6 +25,7 @@ package chargingScheduler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.SocketException;
 
 import jade.core.Runtime;
 import jade.core.Profile;
@@ -39,6 +40,14 @@ import jade.wrapper.*;
  * @author Giovanni Iavarone - Michele Izzo
  */
 
+/**
+ * @author AysHasi
+ *
+ */
+/**
+ * @author AysHasi
+ *
+ */
 public class SystemStart {
 	
 	private final static int carAgents = 3;
@@ -47,31 +56,29 @@ public class SystemStart {
 	private final static int[] carBatteryMax = {100, 50, 200};
 	private final static int[] carRequiredCharge = {40, 0, 200};
 	private final static Times[] carTimes = new Times[3];
+	private static ServerSocket serverSocket = null;
+	private static Profile pMain = null;
+	
 
 	public static void main(String[] args) {//throws StaleProxyException, InterruptedException, IOException {
 		// Get a hold to the JADE runtime
 		Runtime rt = Runtime.instance();
-		ServerSocket serverSocket = null;
 
 		// Launch the Main Container (with the administration GUI on top)
-		// listening on available port
+		
 		System.out.println(">>>>>>>>>>>>>>> Launching the platform Main Container...");
-		try {
-			// Create server socket and bind with available port.....
-			serverSocket = new ServerSocket(0);
-		} catch (Exception e) {
-			System.out.println("***** Error occured while constructing the server socket **** " + e);
-		}
-		int port = serverSocket.getLocalPort();
-		System.out.println("Server has binded to the port : "+ port);
-		//int serverSocketInt =  Integer.parseInt(serverSocket.toString());
-		Profile pMain = new ProfileImpl(null, port, null);
+		setupProfile();
+		
 		pMain.setParameter(Profile.GUI, "true");
 		ContainerController mainCtrl = rt.createMainContainer(pMain);
 
+		SwingInterface  swingControlDemo = new SwingInterface();      
+	    swingControlDemo.showTextFieldDemo();
+	    
+	    
 		// Create and start an agent of class MasterScheduler
 		System.out.println(">>>>>>>>>>>>>>> Starting up a CounterAgent...");
-		AgentController agentCtrl;
+		AgentController agentCtrl = null;
 		try {
 			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
 			agentCtrl.start();
@@ -92,6 +99,29 @@ public class SystemStart {
 			} catch (IOException e) {
 				System.out.println("******* Error occured while c ulosingp the agent ******* "+ e);
 			}
+		}
+	}
+	
+	/**
+	 *  @setupServerSocket
+	 *   -Loop through port 4000-4010 to find free port and construct a new profile
+	 */
+	public static void setupProfile() {
+		int port = 8888;
+		try {
+			pMain = new ProfileImpl(null, port, null);
+		} catch (Exception e) {
+			System.out.println("***** Error Occured while constructing UDP Server Socket : "+ e);
+		} finally {
+			for (port = 8889; port < 8898; port++)
+				if (pMain == null) {
+					try {
+						pMain = new ProfileImpl(null, port, null);
+					} catch (Exception e) {
+						System.out.println("******* Error occured while iterating through ports ******* "+ e);
+					}
+				}
+			System.out.println("Port: " + port);
 		}
 	}
 }

@@ -7,6 +7,13 @@ import java.util.Date;
 
 import javax.swing.*;
 
+/**
+ * @author AysHasi
+ * @SwingInterface 
+ * 		Creates the Swing interface to obtain the Car Schedule details from user
+ * 		Construct a CarAgent object and pass user input : CarRegistrationNum, StartTime(HH:mm), EndTime(HH:mm)
+ * 			
+ */
 public class SwingInterface {
 	   private JFrame mainFrame;
 	   private JLabel headerLabel;
@@ -19,7 +26,7 @@ public class SwingInterface {
 
 	   public static void main(String[] args){
 		   SwingInterface  swingControlDemo = new SwingInterface();      
-	      swingControlDemo.showTextFieldDemo();
+	       swingControlDemo.showTextFieldDemo();
 	   }
 
 	   private void prepareGUI(){
@@ -45,7 +52,7 @@ public class SwingInterface {
 	      mainFrame.setVisible(true);  
 	   }
 
-	   private void showTextFieldDemo(){
+	   public void showTextFieldDemo(){
 	      headerLabel.setText("Car Charging Schedule"); 
 	      
 	      JSpinner startTimeSpinner = new JSpinner(new SpinnerDateModel());
