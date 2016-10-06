@@ -26,9 +26,6 @@ package chargingScheduler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketException;
-
-import week4.CounterManager1;
-import week4.CounterManager2;
 import jade.core.Runtime;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
