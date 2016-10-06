@@ -17,14 +17,14 @@ import javax.swing.*;
  * 		Construct a CarAgent object and pass user input : CarRegistrationNum, StartTime(HH:mm), EndTime(HH:mm)
  * 			
  */
-public class SwingInterface {
+public class CarAgentGui {
 	   private JFrame mainFrame;
 	   private JLabel headerLabel;
 	   private JLabel statusLabel;
 	   private JPanel controlPanel;
 	   SystemStart ss;
 
-	   public SwingInterface(SystemStart ss){
+	   public CarAgentGui(SystemStart ss){
 		   this.ss = ss;
 		   prepareGUI();
 	   }
@@ -91,7 +91,7 @@ public class SwingInterface {
 	            
 	            //Construct a CarAgent after pressing Send Button
 	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime);
-	            carAgent.StartCarAgent(carRegNumLbl.getText(), startTime, endTime);
+	            carAgent.StartCarAgent();
 					
 	         }
 	      }); 

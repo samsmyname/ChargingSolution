@@ -35,11 +35,11 @@ import jade.core.ProfileImpl;
 import jade.wrapper.*;
 
 /**
- * This class shows an example of how to run JADE as a library from an external program 
- * and in particular how to start an agent and interact with it by  means of the 
- * Object-to-Agent (O2A) interface.
- * 
- * @author Giovanni Iavarone - Michele Izzo
+ * @SystemStart
+ *  - Starting point of the Agents
+ *  - Construct Profile and bind to a port loop through port 8889-8898
+ *  - Creates MasterScheduler
+ *  - Starts CarAgentGUI
  */
 
 public class SystemStart {
@@ -54,14 +54,15 @@ public class SystemStart {
 	public Profile pMain = null;
 	public static ContainerController mainCtrl = null;
 
+	/**
+	 * @SystemStart
+	 *  - Construct SystemStart in order to removing static behaviour  
+	 */
 	public SystemStart() {
 		Runtime rt = Runtime.instance();
 		setupProfile();
 		pMain.setParameter(Profile.GUI, "true");
 		mainCtrl = rt.createMainContainer(pMain);
-
-		SwingInterface  swingControlDemo = new SwingInterface(this);
-		swingControlDemo.showTextFieldDemo();
 
 		System.out.println(">>>>>>>>>>>>>>> Starting up a Main Agent...");
 		AgentController agentCtrl = null;
@@ -71,53 +72,26 @@ public class SystemStart {
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
 		}
-	}
-	
-
-	public static void main(String[] args) {
-
-		// Launch the Main Container (with the administration GUI on top)
-		SystemStart ss = new SystemStart();
-
-	}
-	
-//FIXME Passed this to carAgent - Is this right?
-	
-	/*public void StartCarAgent(String carReg, String startTime, String endTime) {
-		AgentController agentCtrlc = null;
-		try {
-			// Create and start an agent of class CarAgent
-			System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
-			agentCtrlc = mainCtrl.createNewAgent("CarAgent with registration " + carReg, CarAgent.class.getName(), new Object[0]);
-			System.out.println("111");
-			agentCtrlc.start();
-		} catch (StaleProxyException e) {
-			System.out.println("******* Error occured while starting up the agent ******* " + e);
-		}
 		
-		try {
-			// Retrieve O2A interface CounterManager1 exposed by the agent to make it activate the counter
-			System.out.println(">>>>>>>>>>>>>>> Activate counter");
-			CarManager o2a1 = agentCtrlc.getO2AInterface(CarManager.class);
-			o2a1.activateCounter();
-
-			// Wait a bit
-			System.out.println(">>>>>>>>>>>>>>> Wait a bit...");
-			Thread.sleep(30000);
-
-			// Retrieve O2A interface CounterManager2 exposed by the agent to make it de-activate the counter
-			System.out.println(">>>>>>>>>>>>>>> Deactivate counter");
-			CounterManager2 o2a2 = agentCtrlc.getO2AInterface(CounterManager2.class);
-			o2a2.deactivateCounter();
-		} 
-		catch (StaleProxyException e) {
-			e.printStackTrace();
-		}
-	}*/
+		CarAgentGui  carAgentGui = new CarAgentGui(this);
+		carAgentGui.showTextFieldDemo();
+	}
+	
 
 	/**
-	 *  @setupServerSocket
-	 *   -Loop through port 4000-4010 to find free port and construct a new profile
+	 * @main 
+	 * 	Construct SystemStart to start up the MasterSchedulerAgent and CarAgentGui
+	 */
+	public static void main(String[] args) {
+		// Launch the Main Container (with the administration GUI on top)
+		SystemStart ss = new SystemStart();
+	}
+	
+
+
+	/**
+	 *  @setupProfile
+	 *   -Loop through port 8889-8898 to find free port and construct a new profile
 	 */
 	public void setupProfile() {
 		int port = 8888;
