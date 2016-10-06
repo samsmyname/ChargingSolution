@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketException;
 
+import week4.CounterManager1;
+import week4.CounterManager2;
 import jade.core.Runtime;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
@@ -49,8 +51,8 @@ public class SystemStart {
 	private final static int[] carRequiredCharge = {40, 0, 200};
 	private final static Times[] carTimes = new Times[3];
 	private static ServerSocket serverSocket = null;
-	private Profile pMain = null;
-	public ContainerController mainCtrl = null;
+	public Profile pMain = null;
+	public static ContainerController mainCtrl = null;
 
 	public SystemStart() {
 		Runtime rt = Runtime.instance();
@@ -61,7 +63,7 @@ public class SystemStart {
 		SwingInterface  swingControlDemo = new SwingInterface(this);
 		swingControlDemo.showTextFieldDemo();
 
-		System.out.println(">>>>>>>>>>>>>>> Starting up a CounterAgent...");
+		System.out.println(">>>>>>>>>>>>>>> Starting up a Main Agent...");
 		AgentController agentCtrl = null;
 		try {
 			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
@@ -78,18 +80,40 @@ public class SystemStart {
 		SystemStart ss = new SystemStart();
 
 	}
-
-	public void StartCarAgent(String carReg, String startTime, String endTime) {
+	
+//FIXME Passed this to carAgent - Is this right?
+	
+	/*public void StartCarAgent(String carReg, String startTime, String endTime) {
+		AgentController agentCtrlc = null;
 		try {
 			// Create and start an agent of class CarAgent
 			System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
-			AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent with registration " + carReg, CarAgent.class.getName(), new Object[0]);
-
+			agentCtrlc = mainCtrl.createNewAgent("CarAgent with registration " + carReg, CarAgent.class.getName(), new Object[0]);
+			System.out.println("111");
 			agentCtrlc.start();
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* " + e);
 		}
-	}
+		
+		try {
+			// Retrieve O2A interface CounterManager1 exposed by the agent to make it activate the counter
+			System.out.println(">>>>>>>>>>>>>>> Activate counter");
+			CarManager o2a1 = agentCtrlc.getO2AInterface(CarManager.class);
+			o2a1.activateCounter();
+
+			// Wait a bit
+			System.out.println(">>>>>>>>>>>>>>> Wait a bit...");
+			Thread.sleep(30000);
+
+			// Retrieve O2A interface CounterManager2 exposed by the agent to make it de-activate the counter
+			System.out.println(">>>>>>>>>>>>>>> Deactivate counter");
+			CounterManager2 o2a2 = agentCtrlc.getO2AInterface(CounterManager2.class);
+			o2a2.deactivateCounter();
+		} 
+		catch (StaleProxyException e) {
+			e.printStackTrace();
+		}
+	}*/
 
 	/**
 	 *  @setupServerSocket

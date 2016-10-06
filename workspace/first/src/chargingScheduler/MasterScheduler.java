@@ -3,6 +3,8 @@ package chargingScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
@@ -27,50 +29,37 @@ public class MasterScheduler extends Agent {
 	
 	List<Car> cars = new ArrayList<Car>();
 	
-	protected void setup() 
-    { 
-        System.out.println("-------------------- Starting MasterSchesuler --------------------");
-        System.out.println("My name is "+ getLocalName());
+	protected void setup() {
+		System.out.println("-------------------- Starting MasterSchesuler --------------------");
+		System.out.println("My name is " + getLocalName());
+		
+		//Recieve from another agent
+				addBehaviour(new CyclicBehaviour(){
+					public void action(){
+						ACLMessage msg = receive();
+						if(msg != null){
+							System.out.println("Received msg: "+ msg.getContent());
+						}else{
+							block();
+						}
+					}
+					
+				});
+				
+				
+		
 
-        
-        addBehaviour(new TickerBehaviour(this, 1000){
-        	protected void onTick(){
-<<<<<<< HEAD
-        		
-        		ACLMessage msg = receive();
-        		
-        		while (msg != null)
-        		{
-        			System.out.println("******Here");
-        			for(Car c : cars)
-        			{
-        				if (c.AID == "") //FIXME
-        				{
-        					
-        				}
-        				System.out.println(c.AID);	
-        			}
-        			
-        			
-        			
-        			String msgString = msg.getContent();
-        			System.out.println("Car ID sent: " + msgString);
-        			cars.add(new Car(msgString) ); 
-        			
-        			System.out.println("Cars registered: " + String.valueOf(cars.size()));
-        			//System.out.println("test: " + msg.getSender());
-        			msg = receive();
-=======
+		/*addBehaviour(new TickerBehaviour(this, 1000) {
+			protected void onTick() {
 
 				ACLMessage msg = receive();
-				while (msg != null)
-				{
+				while (msg != null) {
 					Car c = null;
 					if (cars != null && !cars.isEmpty()) {
-						c = cars.get(cars.size()-1);
+						c = cars.get(cars.size() - 1);
 					}
 					String msgString = msg.getContent();
-					cars.add(new Car(msgString) );
+					// cars.add(new Car(msgString) );
 					msg = receive();
 					if (c != null) {
 						if (c.AID == "") {
@@ -79,17 +68,17 @@ public class MasterScheduler extends Agent {
 							System.out.println("Message is " + c.AID);
 						}
 					}
-				System.out.println("Car ID sent: " + msgString);
+					System.out.println("Car ID sent: " + msgString);
 
-				System.out.println("Cars registered: " + String.valueOf(cars.size()));
-				//System.out.println("test: " + msg.getSender());
-				msg = null;
->>>>>>> 2dd2c0237f94d728a370adc60f722d6332b3dfcd
-        		} 
+					System.out.println("Cars registered: "
+							+ String.valueOf(cars.size()));
+					// System.out.println("test: " + msg.getSender());
+					msg = null;
+				}
 
-        	}
-        });
-    }
+			}
+		});*/
+	}
 	
 	public void autoSetup(){
 		setup();
@@ -105,17 +94,6 @@ public class MasterScheduler extends Agent {
 		
 	}
 	
-	private class Car{
-		String AID;
-		int Charge;
-		int prefStartTime;
-		int prefEndTime;
-		
-		private Car(String _AID)
-		{
-			AID = _AID;
-			//Charge = _Charge;
-		}
-	}
+	
 	
 }

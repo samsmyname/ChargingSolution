@@ -25,7 +25,6 @@ public class SwingInterface {
 	   SystemStart ss;
 
 	   public SwingInterface(SystemStart ss){
-
 		   this.ss = ss;
 		   prepareGUI();
 	   }
@@ -89,9 +88,10 @@ public class SwingInterface {
 	            data += ", " +" Start Time:"+ startTime;//startTimeSpinner.getValue();  
 	            data +=" , " + " End Time:" +endTime;//endTimeSpinner.getValue();
 	            statusLabel.setText(data);    
-	            // FIXME Is this the correct way to do this???? or should we inherit CarAgent class????
 	            
-	            ss.StartCarAgent(carRegNumLbl.getText(), startTime, endTime);
+	            //Construct a CarAgent after pressing Send Button
+	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime);
+	            carAgent.StartCarAgent(carRegNumLbl.getText(), startTime, endTime);
 					
 	         }
 	      }); 
