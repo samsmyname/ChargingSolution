@@ -46,6 +46,15 @@ public class MasterScheduler extends Agent {
 					 reply.setContent(" Reply from MSA" ); 
 					 send(reply);
 					 
+					 String[] split = msg.getContent().split(",");
+					 String[] prefStart = split[1].split(":");
+					 String[] prefEnd = split[2].split(":");
+					 
+					 Car newCar = new Car( split[0], Integer.parseInt(prefStart[0]), Integer.parseInt(prefEnd[0]) );
+					 cars.add(newCar);
+					 
+					 geneticAlgorithm();
+					 
 				} else {
 					block();
 				}
