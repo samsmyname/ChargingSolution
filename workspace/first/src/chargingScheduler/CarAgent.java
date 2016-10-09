@@ -106,39 +106,12 @@ public class CarAgent extends Agent{
 
 	}
 
+
 	public String getStartTime() {
 		return startTime;
 	}
 
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
-	}
-	
-	//FIXME Make an interface for deactivateCounter and activateCounter 
-	//Coz this is been used by masterSchedular Agent and CarAgent and any future Agents
-	
-	public void deactivateCounter(){
-		
-	}
-	
-	public void activateCounter() {
-		counter = new TickerBehaviour(this, 5000) {
-			private static final long serialVersionUID = 1L;
-
-			public void onStart() {
-				super.onStart();
-				System.out.println("Agent "+getLocalName()+" - Start counting");
-			}
-			
-			protected void onTick() {
-				System.out.println("Agent "+getLocalName()+" - Counter: " + getTickCount());
-			}
-			
-			public int onEnd() {
-				System.out.println("Agent "+getLocalName()+" - Stop counting");
-				return super.onEnd();
-			}
-		};
-		addBehaviour(counter);
 	}
 }

@@ -43,6 +43,8 @@ public class MasterScheduler extends Agent {
 					 reply.setPerformative( ACLMessage.INFORM );
 					 reply.setContent(" Reply from MSA" ); 
 					 send(reply);
+					 
+					 geneticAlgorithm();
 				} else {
 					block();
 				}
