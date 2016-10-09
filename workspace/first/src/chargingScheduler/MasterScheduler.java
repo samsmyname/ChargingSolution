@@ -3,6 +3,8 @@ package chargingScheduler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jgap.InvalidConfigurationException;
+
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.*;
@@ -44,7 +46,6 @@ public class MasterScheduler extends Agent {
 					 reply.setContent(" Reply from MSA" ); 
 					 send(reply);
 					 
-					 geneticAlgorithm();
 				} else {
 					block();
 				}
@@ -57,10 +58,15 @@ public class MasterScheduler extends Agent {
 	}
 
 	private void geneticAlgorithm() {
-
+		try {
+			new JGAP(cars);
+		} catch (InvalidConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private void evolutionAlgorithm() {
+	private void antColonyAlgorithm() {
 
 	}
 

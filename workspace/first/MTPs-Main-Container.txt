@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-http://ayeshas-mbp.home:7778/acc
-=======
 http://Samuel-PC:7778/acc
->>>>>>> refs/remotes/origin/JGAP
