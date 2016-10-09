@@ -30,7 +30,6 @@ public class CarAgent extends Agent{
 	private TickerBehaviour counter;
 	
 	public CarAgent() {
-		System.out.println(this.carId);
 	}
 
 	/**
@@ -72,9 +71,13 @@ public class CarAgent extends Agent{
 	}
 	
 	/* 
-	 * @addBehaviour 
+	 *	@setup()
+	 * 	- Construct a ACLMessage
 	 * 	- Send a msg to MasterSchedularAgent 
-	 *  - This CyclicBehaviour stays active as long as its agent is alive and will be called repeatedly after every event. 
+	 * 
+	 *  @addBehaviour 
+	 *  - Receives messages from MSA
+	 *  - CyclicBehaviour stays active as long as its agent is alive and will be called repeatedly after every event. 
 	 *   	Quite useful to handle message reception. 
 	 *   	@see for other behavioures : https://www.iro.umontreal.ca/~vaucher/Agents/Jade/primer6.html
 	 *  - passParam Prefernece that has been passed from startCarAgent will be passed to the setup and to send to the master Scheduler
@@ -83,18 +86,24 @@ public class CarAgent extends Agent{
 	 * @see jade.core.Agent#setup()
 	 */
 	protected void setup() {
-		
-		//addBehaviour(new CyclicBehaviour() {
-			//public void action() {
-				ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-				Object[] args = getArguments();
-				
-				msg.setContent(args[0]+","+args[1]+","+args[2]);
-				for (int i = 1; i <= 2; i++)
-					msg.addReceiver(new AID("MasterScheduler", AID.ISLOCALNAME));
-				send(msg);
-			//}
-		//});
+		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+		Object[] args = getArguments();
+
+		msg.setContent(args[0] + "," + args[1] + "," + args[2]);
+		msg.addReceiver(new AID("MasterScheduler", AID.ISLOCALNAME));
+		send(msg);
+
+		addBehaviour(new CyclicBehaviour() {
+			public void action() {
+				ACLMessage msg = receive();
+				if (msg != null) {
+					System.out.println("Received msg from carAgent: "+ msg.getContent());
+				} else {
+					block();
+				}
+			}
+		});
+
 	}
 
 	public String getStartTime() {

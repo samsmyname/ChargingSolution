@@ -27,20 +27,22 @@ public class MasterScheduler extends Agent {
 	 */
 	protected void setup() {
 		System.out.println("-------------------- Starting MasterSchesuler --------------------");
-
+	
+		/**
+		 * @addBehaviour
+		 *  - CyclicBehaviour receives x message from car agent
+		 *  - Sends reply to x message to Car Agent
+		 */
 		// Recieve from Car Agent
 		addBehaviour(new CyclicBehaviour() {
 			public void action() {
 				ACLMessage msg = receive();
 				if (msg != null) {
-					 System.out.println("Received msg: " + msg.getContent());
-
-					/*
-					 * ACLMessage reply = msg.createReply();
-					 *  reply.setPerformative( ACLMessage.INFORM );
-					 * reply.setContent(" Pong" ); send(reply);
-					 */
-
+					 System.out.println("Received msg from MasterSchedularAgent: " + msg.getContent());
+					 ACLMessage reply = msg.createReply();
+					 reply.setPerformative( ACLMessage.INFORM );
+					 reply.setContent(" Reply from MSA" ); 
+					 send(reply);
 				} else {
 					block();
 				}
