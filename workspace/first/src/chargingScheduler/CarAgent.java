@@ -84,8 +84,8 @@ public class CarAgent extends Agent{
 	 */
 	protected void setup() {
 		
-		addBehaviour(new CyclicBehaviour() {
-			public void action() {
+		//addBehaviour(new CyclicBehaviour() {
+			//public void action() {
 				ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 				Object[] args = getArguments();
 				
@@ -93,8 +93,8 @@ public class CarAgent extends Agent{
 				for (int i = 1; i <= 2; i++)
 					msg.addReceiver(new AID("MasterScheduler", AID.ISLOCALNAME));
 				send(msg);
-			}
-		});
+			//}
+		//});
 	}
 
 	public String getStartTime() {
