@@ -26,28 +26,19 @@ package chargingScheduler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketException;
-
 import jade.core.Runtime;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.*;
 
 /**
- * This class shows an example of how to run JADE as a library from an external program 
- * and in particular how to start an agent and interact with it by  means of the 
- * Object-to-Agent (O2A) interface.
- * 
- * @author Giovanni Iavarone - Michele Izzo
+ * @SystemStart
+ *  - Starting point of the Agents
+ *  - Construct Profile and bind to a port loop through port 8889-8898
+ *  - Creates MasterScheduler
+ *  - Starts CarAgentGUI
  */
 
-/**
- * @author AysHasi
- *
- */
-/**
- * @author AysHasi
- *
- */
 public class SystemStart {
 	
 	private final static int carAgents = 3;
@@ -57,56 +48,49 @@ public class SystemStart {
 	private final static int[] carRequiredCharge = {40, 0, 200};
 	private final static Times[] carTimes = new Times[3];
 	private static ServerSocket serverSocket = null;
-	private static Profile pMain = null;
-	
+	public Profile pMain = null;
+	public static ContainerController mainCtrl = null;
 
-	public static void main(String[] args) {//throws StaleProxyException, InterruptedException, IOException {
-		// Get a hold to the JADE runtime
+	/**
+	 * @SystemStart
+	 *  - Construct SystemStart in order to removing static behaviour  
+	 */
+	public SystemStart() {
 		Runtime rt = Runtime.instance();
-
-		// Launch the Main Container (with the administration GUI on top)
-		
-		System.out.println(">>>>>>>>>>>>>>> Launching the platform Main Container...");
 		setupProfile();
-		
 		pMain.setParameter(Profile.GUI, "true");
-		ContainerController mainCtrl = rt.createMainContainer(pMain);
+		mainCtrl = rt.createMainContainer(pMain);
 
-		SwingInterface  swingControlDemo = new SwingInterface();      
-	    swingControlDemo.showTextFieldDemo();
-	    
-	    
-		// Create and start an agent of class MasterScheduler
-		System.out.println(">>>>>>>>>>>>>>> Starting up a CounterAgent...");
+		System.out.println(">>>>>>>>>>>>>>> Starting up a Main Agent...");
 		AgentController agentCtrl = null;
 		try {
 			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
 			agentCtrl.start();
-			carTimes[0] = new Times(1);
-			
-			for (int i=1; i<=carAgents; i++)
-			{
-				// Create and start an agent of class CarAgent
-				System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
-				AgentController agentCtrlc = mainCtrl.createNewAgent("CarAgent" + i, CarAgent.class.getName(), new Object[0]);
-				agentCtrlc.start();
-			}	
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
-		}finally{
-			try {
-				serverSocket.close();
-			} catch (IOException e) {
-				System.out.println("******* Error occured while c ulosingp the agent ******* "+ e);
-			}
 		}
+		
+		CarAgentGui  carAgentGui = new CarAgentGui(this);
+		carAgentGui.showTextFieldDemo();
 	}
 	
+
 	/**
-	 *  @setupServerSocket
-	 *   -Loop through port 4000-4010 to find free port and construct a new profile
+	 * @main 
+	 * 	Construct SystemStart to start up the MasterSchedulerAgent and CarAgentGui
 	 */
-	public static void setupProfile() {
+	public static void main(String[] args) {
+		// Launch the Main Container (with the administration GUI on top)
+		SystemStart ss = new SystemStart();
+	}
+	
+
+
+	/**
+	 *  @setupProfile
+	 *   -Loop through port 8889-8898 to find free port and construct a new profile
+	 */
+	public void setupProfile() {
 		int port = 8888;
 		try {
 			pMain = new ProfileImpl(null, port, null);
@@ -114,7 +98,7 @@ public class SystemStart {
 			System.out.println("***** Error Occured while constructing UDP Server Socket : "+ e);
 		} finally {
 			for (port = 8889; port < 8898; port++)
-				if (pMain == null) {
+				if(pMain == null) {
 					try {
 						pMain = new ProfileImpl(null, port, null);
 					} catch (Exception e) {

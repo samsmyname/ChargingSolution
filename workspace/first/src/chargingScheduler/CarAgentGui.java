@@ -1,5 +1,8 @@
 package chargingScheduler;
 
+import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -14,20 +17,22 @@ import javax.swing.*;
  * 		Construct a CarAgent object and pass user input : CarRegistrationNum, StartTime(HH:mm), EndTime(HH:mm)
  * 			
  */
-public class SwingInterface {
+public class CarAgentGui {
 	   private JFrame mainFrame;
 	   private JLabel headerLabel;
 	   private JLabel statusLabel;
 	   private JPanel controlPanel;
+	   SystemStart ss;
 
-	   public SwingInterface(){
-	      prepareGUI();
+	   public CarAgentGui(SystemStart ss){
+		   this.ss = ss;
+		   prepareGUI();
 	   }
 
-	   public static void main(String[] args){
-		   SwingInterface  swingControlDemo = new SwingInterface();      
-	       swingControlDemo.showTextFieldDemo();
-	   }
+//	   public static void main(String[] args){
+//		   SwingInterface  swingControlDemo = new SwingInterface();
+//	       swingControlDemo.showTextFieldDemo();
+//	   }
 
 	   private void prepareGUI(){
 	      mainFrame = new JFrame("Car Agent Interface");
@@ -83,10 +88,11 @@ public class SwingInterface {
 	            data += ", " +" Start Time:"+ startTime;//startTimeSpinner.getValue();  
 	            data +=" , " + " End Time:" +endTime;//endTimeSpinner.getValue();
 	            statusLabel.setText(data);    
-	            // FIXME Is this the correct way to do this???? or should we inherit CarAgent class????
 	            
-	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime) ;
-	            
+	            //Construct a CarAgent after pressing Send Button
+	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime);
+	            carAgent.StartCarAgent();
+					
 	         }
 	      }); 
 
