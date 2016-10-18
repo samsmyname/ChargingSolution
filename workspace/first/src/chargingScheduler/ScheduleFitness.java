@@ -88,7 +88,7 @@ public class ScheduleFitness extends FitnessFunction{
 					{
 						if ((int)getCarAtGene(a_subject,j) == i || hoursGiven[j] == i)
 						{
-							carFitness -= Math.abs(c.prefStart-j);
+							carFitness -= Math.abs((c.prefStart-j)/3);
 						}
 					}				
 			}

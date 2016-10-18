@@ -30,7 +30,7 @@ public class ScheduleFitness extends FitnessFunction{
 		{
 			
 			// Setup variables
-			int hoursRequired;
+			int hoursRequired = 0;
 			int totalHours = 24;
 			int hoursScheduledCount = numberOfHoursScheduled(a_subject, i);
 			int[] hoursGiven = new int[24];
@@ -71,7 +71,7 @@ public class ScheduleFitness extends FitnessFunction{
 			if (diff != 0)
 			{
 				double perc = (double)diff / (totalHours - hoursRequired) * 100;
-				carFitness -= perc;	
+				carFitness -= perc;
 			}	
 			
 			// Compare hours to given times
@@ -82,18 +82,22 @@ public class ScheduleFitness extends FitnessFunction{
 				if ((int)getCarAtGene(a_subject,j) == hoursGiven[j] )
 				{
 					
-				} else
-				{
-					carFitness -= 5;
 				}
-					
+				
+					if ((int)getCarAtGene(a_subject,j) != hoursGiven[j] )
+					{
+						if ((int)getCarAtGene(a_subject,j) == i || hoursGiven[j] == i)
+						{
+							carFitness -= Math.abs(c.prefStart-j);
+						}
+					}				
 			}
 			
 			// Subtract carfitness from totalfitness
 			fitness -= (100-carFitness);
 			
 			// test output
-			System.out.println(test);
+			System.out.println(test2 + " " + " " + carFitness);
 			
 			// Increment which car
 			i++;
@@ -102,7 +106,6 @@ public class ScheduleFitness extends FitnessFunction{
 		//Fitness value cannot go lower than 1 or an exception will be thrown.
 		if (fitness<1)		
 			fitness = 1;
-		
 		return fitness;
 	}
 	
