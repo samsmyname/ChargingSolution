@@ -20,53 +20,105 @@ public class ScheduleFitness extends FitnessFunction{
 	
 	@Override
 	protected double evaluate(IChromosome a_subject) {
-		// For best possible schedule, fitness should be 150 with current weightings and settings.
+		// For best possible schedule, fitness should be 100 with current weightings and settings.
 		
-		int fitness = 50; //Arbitrary starting value
+		int maxFitness = 100;
+		int fitness = maxFitness; //Arbitrary starting value
 		
-		int i = 1;	// The car value that appears in the gene.
+		int i = 1; // The car value that appears in the gene.
 		for (Car c : cars)
 		{
-			//Assume car needs 8 hours to charge - will be changed when code is written to get data from the car agents.
-			int hoursRequired = 8;		//TODO
-			int hoursSchedueled = numberOfHoursScheduled(a_subject, i);
 			
-			if (hoursSchedueled == hoursRequired)	// If we have scheduled the right number of hours.
+			// Setup variables
+			int hoursRequired = 0;
+			int totalHours = 24;
+			int hoursScheduledCount = numberOfHoursScheduled(a_subject, i);
+			int[] hoursGiven = new int[24];
+			int hoursReqCount = 0;
+			int hoursDist = 0;
+			int carFitness = maxFitness;
+			String test = "";
+			String test2 = "";
+			
+			if (c.prefEnd < c.prefStart)
 			{
-				int idealBlocks = 1;	//Assume we want to charge the car in one continuous period
-				int scheduledBlocks = howManySeperateBlocks(a_subject, i);
-				
-				if (idealBlocks != scheduledBlocks)		//If our schedule has split up charging periods
+				hoursRequired = (24 - c.prefStart) + c.prefEnd;
+				for(int j = 0; j<24; j++)
 				{
-					fitness -= (Math.pow((idealBlocks-scheduledBlocks), 2))*2;
-					
-					
-					if (scheduledBlocks == 2)
+					if(j<=c.prefEnd || j>c.prefStart)
 					{
-						int distance = seperateBlockDistance(a_subject, i);
-						fitness -= Math.pow(distance, 2);
+						hoursGiven[j] = i;
 					}
+				}
+			} else
+			{
+				hoursRequired = c.prefEnd - c.prefStart;
+				for(int j = 0; j<24; j++)
+				{
+					if(j<=c.prefEnd && j>c.prefStart)
+					{
+						hoursGiven[j] = i;
+					}
+				}
+			}
+			
+			//TEMP: Assume car needs half as many hours to charge as hours given
+			hoursRequired /= 2;
+			
+			
+			// Compare number of hours to hours required
+			int diff = Math.abs(hoursScheduledCount - hoursRequired);
+			if (diff != 0)
+			{
+				double perc = (double)diff / (totalHours - hoursRequired) * 100;
+				carFitness -= perc;
+			}	
+			
+			// Compare hours to given times
+			for (int j = 0; j < 24; j++)
+			{	
+				test += hoursGiven[j];
+				test2 += (int)getCarAtGene(a_subject,j);
+				if ((int)getCarAtGene(a_subject,j) == hoursGiven[j] )
+				{
 					
 				}
-				else
-				{
-					fitness+=(100/cars.size());	//Massive boost if the solution meets all goals, weighted so that it is the same boost no matter how many cars.
-
-				}
 				
+					if ((int)getCarAtGene(a_subject,j) != hoursGiven[j] )
+					{
+						if ((int)getCarAtGene(a_subject,j) == i || hoursGiven[j] == i)
+						{
+							carFitness -= Math.abs(c.prefStart-j);
+						}
+					}				
 			}
-			else if (hoursSchedueled < hoursRequired | hoursSchedueled > hoursRequired)
-			{
-				fitness -= (int) Math.abs( Math.pow((hoursRequired-hoursSchedueled), 2))*3;
-			}
-				
+			
+			// Subtract carfitness from totalfitness
+			fitness -= (100-carFitness);
+			
+			// test output
+			System.out.println(test2 + " " + " " + carFitness);
+			
+			// Increment which car
 			i++;
 		}
-
-		if (fitness<1)		//Fitness value cannot go lower than 1 or an exception will be thrown.
-			fitness = 1;
 		
+		//Fitness value cannot go lower than 1 or an exception will be thrown.
+		if (fitness<1)		
+			fitness = 1;
 		return fitness;
+	}
+	
+	
+	// Return hours scheduled
+	private String hoursScheduled(IChromosome a_subject, int carID)
+	{
+		String hours = "";
+		for(int i = 0; i < 24; i++)
+		{
+			hours += getCarAtGene(a_subject, i);
+		}
+		return hours;
 	}
 	
 	//Returns the number of hours a car is scheduled
@@ -82,61 +134,6 @@ public class ScheduleFitness extends FitnessFunction{
 		
 		return hours;
 	}
-	
-	//Works out how many non continuous periods of time a car is scheduled to charge for.
-	private static int howManySeperateBlocks (IChromosome a_subject, int carID)
-	{
-		int blocks = 0;
-		boolean sameBlock = false;
-		
-		for (int i = 0; i<24; i++)
-		{
-			if (getCarAtGene(a_subject, i) == carID)
-			{
-				if (sameBlock == false)
-				{
-					blocks++;
-					sameBlock = true;
-				}
-			}
-			else
-			{
-				sameBlock = false;
-			}
-
-		}
-		
-		return blocks;
-	}
-	
-	//Works out how close two separate car charging blocks are too each other 
-	//FIXME This function does not work as intended.
-		private static int seperateBlockDistance (IChromosome a_subject, int carID)
-		{
-			boolean sameBlock = false;
-			int distance = 0;
-			
-			for (int i = 0; i<24; i++)
-			{
-				if (getCarAtGene(a_subject, i) == carID)
-				{
-					if (sameBlock == false)
-					{
-						sameBlock = true;
-					}
-				}
-				else
-				{
-					if (sameBlock == false)
-						distance+=1;
-					
-					sameBlock = false;
-				}
-
-			}
-			
-			return distance;
-		}
 	
 	//Returns the ID of the car scheduled at the time a_position
 	public static int getCarAtGene (IChromosome a_potentialSolution, int a_position)
