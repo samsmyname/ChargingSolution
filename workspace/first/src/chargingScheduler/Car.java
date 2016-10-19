@@ -3,12 +3,23 @@ package chargingScheduler;
 public class Car {
 
 	String AID;
-	int Charge;
-	int prefStartTime;
-	int prefEndTime;
+	int chargeCurrent;
+	int chargeMax;
+	int prefStart;
+	int prefEnd;
 
-	private Car(String _AID) {
+	//This constructor for testing only
+	public Car(String _AID, int prefStart, int prefEnd) {
 		AID = _AID;
-		// Charge = _Charge;
+		chargeCurrent = 40;
+		chargeMax = 100;
+		this.prefStart = prefStart;
+		this.prefEnd = prefEnd;
+		
 	}
+	
+	public Car(String _AID, int chargeCurrent, int chargeMax, int freeStart, int freeEnd){
+		
+	}
+
 }
