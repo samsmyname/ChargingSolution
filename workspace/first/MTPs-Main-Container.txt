@@ -1,1 +1,1 @@
-http://Samuel-PC:7778/acc
+http://10.1.57.230:7778/acc

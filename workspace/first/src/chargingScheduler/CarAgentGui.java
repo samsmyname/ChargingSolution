@@ -75,7 +75,13 @@ public class CarAgentGui {
 	      JLabel  carRegNum= new JLabel("<html>Car Reg. Number:</html>", JLabel.RIGHT);
 	      JLabel  startTime = new JLabel("<html>Start Time:</html>", JLabel.CENTER);
 	      JLabel  endTime = new JLabel("<html>End Time:</html>", JLabel.CENTER);
+	     
+	      JLabel  chargeRequire = new JLabel("<html>Charge Required:</html>", JLabel.CENTER);
+	      JLabel  currentCharge = new JLabel("<html>Current Charge:</html>", JLabel.CENTER);
+	    
 	      final JTextField carRegNumLbl = new JTextField(6);
+	      final JTextField chargeRequireLbl = new JTextField(6);
+	      final JTextField currentChargeLbl = new JTextField(6);
 	    
 
 	      JButton loginButton = new JButton("Send Schedule");
@@ -87,6 +93,8 @@ public class CarAgentGui {
 	            String data = "Car Id:" + carRegNumLbl.getText();
 	            data += ", " +" Start Time:"+ startTime;//startTimeSpinner.getValue();  
 	            data +=" , " + " End Time:" +endTime;//endTimeSpinner.getValue();
+	            data += " , " + " Charge Required:"+ chargeRequireLbl.getText();
+	            data += " , " + " Current Charge:"+ currentChargeLbl.getText();
 	            statusLabel.setText(data);    
 	            
 	            //Construct a CarAgent after pressing Send Button
@@ -104,6 +112,12 @@ public class CarAgentGui {
 	      
 	      controlPanel.add(endTime);   
 	      controlPanel.add(endTimeSpinner);
+	      
+	      controlPanel.add(chargeRequire);   
+	      controlPanel.add(chargeRequireLbl);
+	     
+	      controlPanel.add(currentCharge);
+	      controlPanel.add(currentChargeLbl);  
 	      
 	      controlPanel.add(loginButton);
 	      mainFrame.setVisible(true);  
