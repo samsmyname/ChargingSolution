@@ -37,8 +37,8 @@ public class ScheduleFitness extends FitnessFunction{
 			int hoursReqCount = 0;
 			int hoursDist = 0;
 			int carFitness = maxFitness;
-			String test = "";
-			String test2 = "";
+			String hoursGivenString = "";
+			String solutionString = "";
 			
 			if (c.prefEnd < c.prefStart)
 			{
@@ -77,8 +77,8 @@ public class ScheduleFitness extends FitnessFunction{
 			// Compare hours to given times
 			for (int j = 0; j < 24; j++)
 			{	
-				test += hoursGiven[j];
-				test2 += (int)getCarAtGene(a_subject,j);
+				hoursGivenString += hoursGiven[j];
+				solutionString += (int)getCarAtGene(a_subject,j);
 				if ((int)getCarAtGene(a_subject,j) == hoursGiven[j] )
 				{
 					
