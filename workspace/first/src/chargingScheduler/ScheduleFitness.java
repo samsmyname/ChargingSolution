@@ -79,6 +79,7 @@ public class ScheduleFitness extends FitnessFunction{
 			{	
 				hoursGivenString += hoursGiven[j];
 				solutionString += (int)getCarAtGene(a_subject,j);
+				solutionString += " ";
 				if ((int)getCarAtGene(a_subject,j) == hoursGiven[j] )
 				{
 					
