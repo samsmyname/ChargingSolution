@@ -8,6 +8,7 @@ import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
+import java.sql.Time;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
@@ -110,8 +111,27 @@ public class CarAgent extends Agent{
 	public String getStartTime() {
 		return startTime;
 	}
+	
 
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
+	
+	public int getId() {
+		return carid;
+	}
+
+	public void setId(int carid) {
+		this.carid = carid;
+	}
+	public String getCarName() {
+		return this._carName;
+	}
+	
+	public void setCarName(String name) {
+		this._carName = name;
+	}
+
+
+	
 }
