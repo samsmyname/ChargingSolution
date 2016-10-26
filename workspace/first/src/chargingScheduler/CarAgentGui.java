@@ -1,11 +1,13 @@
 package chargingScheduler;
 
+
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.*;
@@ -22,6 +24,7 @@ public class CarAgentGui {
 	   private JLabel headerLabel;
 	   private JLabel statusLabel;
 	   private JPanel controlPanel;
+	   
 	   SystemStart ss;
 
 	   public CarAgentGui(SystemStart ss){

@@ -70,7 +70,7 @@ public class MasterScheduler extends Agent {
 		try {
 			new JGAP(cars);
 		} catch (InvalidConfigurationException e) {
-			// TODO Auto-generated catch block
+			System.out.println("***** Exception occured on geneticAlgorithm() *****");
 			e.printStackTrace();
 		}
 	}

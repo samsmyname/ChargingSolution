@@ -8,6 +8,7 @@ import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
@@ -28,6 +29,11 @@ public class CarAgent extends Agent{
 	private String endTime;
 	private int carLoad = 20;
 	private TickerBehaviour counter;
+	public static ArrayList carRegList=new ArrayList<String>() ;
+	public static ArrayList errorStack = new ArrayList<String>();
+	//List<Car> cars = new ArrayList<Car>();
+
+
 	
 	public CarAgent() {
 	}
@@ -40,6 +46,7 @@ public class CarAgent extends Agent{
 		this.carRegNum = carRegNum;
 		this.setStartTime(startTime);
 		this.endTime = endTime;
+		carRegList.add(carRegNum);
 	}
 
 	/**
@@ -66,6 +73,8 @@ public class CarAgent extends Agent{
 			agentCtrlc = SystemStart.mainCtrl.createNewAgent("CarAgent @Rego "+ carRegNum, CarAgent.class.getName(), passParam);
 			agentCtrlc.start();
 		} catch (StaleProxyException e) {
+			String err = "******* Error occured while starting up the agent ******* "+ e;
+			errorStack.add(err);
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
 		}
 	}
