@@ -77,7 +77,6 @@ public class MasterScheduler extends Agent {
 
 	private void antColonyAlgorithm() {
 		
-
 	}
 
 }
