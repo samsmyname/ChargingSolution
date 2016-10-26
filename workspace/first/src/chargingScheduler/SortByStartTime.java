@@ -4,10 +4,10 @@ package chargingScheduler;
 import chargingScheduler.CarAgent;
 import java.util.Comparator;
 
-public class SortByStartTime implements Comparator<CarAgent> {
+public class SortByStartTime implements Comparator<Car> {
 
 	@Override
-	public int compare(CarAgent arg0, CarAgent arg1) {		
+	public int compare(Car arg0, Car arg1) {		
 		if (arg0 == null) {
 			return -1;
 		}
@@ -16,6 +16,7 @@ public class SortByStartTime implements Comparator<CarAgent> {
 			return 1;
 		}
 		
-		return arg1.getStartTime().compareTo(arg0.getStartTime());
+	//	return arg1.getStartTime().compareTo(arg0.getStartTime());
+		return Integer.compare(arg1.getStartTime(), arg0.getStartTime());
 	}
 }

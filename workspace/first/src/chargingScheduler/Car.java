@@ -22,4 +22,20 @@ public class Car {
 		
 	}
 
+
+	
+	public int getStartTime() {
+		return prefStart;
+	}
+	
+
+	
+	public String getId() {
+		return AID;
+	}
+
+	
+
+
+	
 }

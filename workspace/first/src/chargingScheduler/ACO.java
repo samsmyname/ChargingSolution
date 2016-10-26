@@ -55,7 +55,7 @@ public class ACO implements Algorithm
 	 
 		for (int i = 0; i < tmp.size(); i++) {
 			position -= 1;
-			if (tmp.get(i).get+CarName() == name) {
+			if (tmp.get(i).getId() == name) {
 				return position;
 			}	
 		}

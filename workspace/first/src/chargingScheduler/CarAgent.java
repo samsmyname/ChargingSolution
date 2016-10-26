@@ -118,19 +118,15 @@ public class CarAgent extends Agent{
 	}
 	
 	public int getId() {
-		return carid;
+		return carId;
 	}
 
-	public void setId(int carid) {
-		this.carid = carid;
-	}
+	
 	public String getCarName() {
-		return this._carName;
+		return this.carRegNum;
 	}
 	
-	public void setCarName(String name) {
-		this._carName = name;
-	}
+
 
 
 	
