@@ -1,10 +1,13 @@
 package chargingScheduler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jgap.InvalidConfigurationException;
 
+import isula.aco.exception.ConfigurationException;
+import isula.aco.exception.InvalidInputException;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.*;
@@ -53,7 +56,8 @@ public class MasterScheduler extends Agent {
 					 Car newCar = new Car( split[0], Integer.parseInt(prefStart[0]), Integer.parseInt(prefEnd[0]) );
 					 cars.add(newCar);
 					 
-					 geneticAlgorithm();
+					 //geneticAlgorithm();
+					 antColonyAlgorithm();
 					 
 				} else {
 					block();
@@ -76,7 +80,21 @@ public class MasterScheduler extends Agent {
 	}
 
 	private void antColonyAlgorithm() {
-		
+		try {
+			new ACOProblem(cars);
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (javax.naming.ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
