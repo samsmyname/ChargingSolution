@@ -69,12 +69,13 @@ public class CarAgent extends Agent{
 
 		try {
 			// Create and start an agent of class CarAgent
-			System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgent...");
+			System.out.println(">>>>>>>>>>>>>>> Starting up a CarAgen : "+ carRegNum +" Start: "+startTime + " End:"+endTime+CarAgent.class.getName());
 			agentCtrlc = SystemStart.mainCtrl.createNewAgent("CarAgent @Rego "+ carRegNum, CarAgent.class.getName(), passParam);
 			agentCtrlc.start();
 		} catch (StaleProxyException e) {
-			String err = "******* Error occured while starting up the agent ******* "+ e;
+			String err = "Error: "+ e.getMessage();
 			errorStack.add(err);
+			UI.displayErr();
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
 		}
 	}

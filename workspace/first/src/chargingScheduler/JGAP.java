@@ -54,7 +54,9 @@ public class JGAP {
 		for (int i = 0; i < 24; i++) {
 			finalSolution += ScheduleFitness.getCarAtGene(bestSolutionSoFar, i) + " ";
 		}
-		ChargingSheduleGUI csGUI = new ChargingSheduleGUI(finalSolution);
+		//ChargingSheduleGUI csGUI = new ChargingSheduleGUI(finalSolution);
+		//UI.removeRows();
+		UI.displaySchedules(finalSolution);
 		
 		System.out.println("Final Solution: "+finalSolution);
 		

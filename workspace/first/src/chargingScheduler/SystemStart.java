@@ -26,6 +26,8 @@ package chargingScheduler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketException;
+import java.util.ArrayList;
+
 import jade.core.Runtime;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
@@ -50,6 +52,7 @@ public class SystemStart {
 	private static ServerSocket serverSocket = null;
 	public Profile pMain = null;
 	public static ContainerController mainCtrl = null;
+	public static ArrayList errorStack = new ArrayList<String>();
 
 	/**
 	 * @SystemStart
@@ -68,10 +71,11 @@ public class SystemStart {
 			agentCtrl.start();
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
+			errorStack.add(e.getMessage());
+			UI.displayErr();
 		}
 		
-		CarAgentGui  carAgentGui = new CarAgentGui(this);
-		carAgentGui.showTextFieldDemo();
+		UI  ui = new UI(this);
 	}
 	
 

@@ -64,20 +64,22 @@ public class CarAgentGui {
 	      headerLabel.setText("Car Charging Schedule"); 
 	      
 	      JSpinner startTimeSpinner = new JSpinner(new SpinnerDateModel());
-	      JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(startTimeSpinner, "HH:mm:ss");
+	      JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(startTimeSpinner, "HH:mm");
 	      startTimeSpinner.setEditor(timeEditor);
 	      startTimeSpinner.setValue(new Date()); 
 	      
 	      
 	      JSpinner endTimeSpinner = new JSpinner(new SpinnerDateModel());
-	      JSpinner.DateEditor endTimeEditor = new JSpinner.DateEditor(endTimeSpinner, "HH:mm:ss");
+	      JSpinner.DateEditor endTimeEditor = new JSpinner.DateEditor(endTimeSpinner, "HH:mm");
 	      endTimeSpinner.setEditor(endTimeEditor);
 	      endTimeSpinner.setValue(new Date()); 
 	      
 
-	      JLabel  carRegNum= new JLabel("<html>Car Reg. Number:</html>", JLabel.RIGHT);
-	      JLabel  startTime = new JLabel("<html>Start Time:</html>", JLabel.CENTER);
-	      JLabel  endTime = new JLabel("<html>End Time:</html>", JLabel.CENTER);
+	      JLabel  carRegNum= new JLabel("<html>Car Reg. Number </html>", JLabel.RIGHT);
+	      JLabel  startTime = new JLabel("<html>Start Time </html>", JLabel.CENTER);
+	      JLabel  endTime = new JLabel("<html>End Time </html>", JLabel.CENTER);
+	      JLabel  newLine = new JLabel("<html><br></html>", JLabel.CENTER);
+//JLabel  error = new JLabel("<html><br><br>Error </html>", JLabel.CENTER);
 	      final JTextField carRegNumLbl = new JTextField(6);
 	    
 
@@ -106,9 +108,11 @@ public class CarAgentGui {
 	      controlPanel.add(startTimeSpinner);
 	      
 	      controlPanel.add(endTime);   
-	      controlPanel.add(endTimeSpinner);
+	      controlPanel.add(endTimeSpinner);  
 	      
 	      controlPanel.add(loginButton);
+	      controlPanel.add(newLine);
+	      
 	      mainFrame.setVisible(true);  
 	   }
 }

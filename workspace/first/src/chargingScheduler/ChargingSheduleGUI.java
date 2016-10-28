@@ -39,37 +39,49 @@ public class ChargingSheduleGUI extends JFrame{
         createGUI(solutionString);
         //this.solutionString = solutionString;
     }
+    
 
     public void createGUI(String solutionString) {
         setLayout(new BorderLayout());
         JScrollPane pane = new JScrollPane();
         
-        //car mapping 
+        List<Color> rowColours = Arrays.asList(Color.RED,Color.GREEN,Color.CYAN);
+        
         table = new JTable(new DefaultTableModel(new Object[]{"CAR NUMBER"},0));
         model = (DefaultTableModel) table.getModel();
-        
-        System.out.println("----- ++++++++++++++++++++++ rows exist----" + model.getRowCount());
-        
-        if(model.getRowCount() > 0){
-        	for(int i=0; i < model.getRowCount();i++){
+       
+        int rowCount = model.getRowCount();
+        System.out.println("********** rowCount: "+rowCount);
+        if(rowCount!=0){
+        	for(int i=0;i<rowCount;i++){
         		model.removeRow(i);
-        		System.out.println("----- removing rows exist----"+i);
         	}
         }
-       
         //table.setBackground(bg);
         table.setRowHeight(30);
         model.addRow(new Object[]{errorStack});
-        
-        String[] spot =  solutionString.split(" ");
-    	List<String> carList = CarAgent.carRegList;
+       
+        String[] spot = null;
+        List<String> carList = null;
+        spot =  solutionString.split(" ");
+    	carList = CarAgent.carRegList;
+    	
+    	System.out.println("********************* carList: "+carList.size());
+    	System.out.println("********************* spots: "+spot.length);
     	//carNum = null;
     	
+    	//car mapping 
     	for(int i=0;i<spot.length;i++){
-    		carNum = (i+1) + "  >>>>>  ";
-			for (int j = 0; j < carList.size(); j++) {
-			
-				if ( j+1 == Integer.parseInt(spot[i])) {
+    		if((i+1)>=1 && (i+1)<=9 ){
+    			carNum = "0"+(i+1)+"00" + "  >>>>>  ";
+    		}else if((i+1)>9){
+    			carNum = (i+1)+"00"+ "  >>>>>  ";
+    		}else{
+    			carNum = (i+1) + "  >>>>>  ";
+    		}
+    		for (int j = 0; j < carList.size(); j++) {
+				System.out.println(i);
+				if ( (j+1) == Integer.parseInt(spot[i])) {
 					carNum += carList.get(j).toUpperCase();
 					model.addRow(new Object[]{carNum});
 					System.out.println("------------> "+carNum);
