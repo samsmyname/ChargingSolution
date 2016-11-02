@@ -80,22 +80,6 @@ public class MasterScheduler extends Agent {
 	}
 
 	private void antColonyAlgorithm() {
-		try {
-			new ACOProblem(cars);
-		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (javax.naming.ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+			//new ACOProblem(cars);
 	}
-
 }
