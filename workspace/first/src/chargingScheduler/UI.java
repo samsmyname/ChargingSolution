@@ -164,13 +164,13 @@ public class UI extends JFrame {
 		endTimeSpinner.setBounds(121, 206, 70, 26);
 		desktopPane.add(endTimeSpinner);
 
-		lblStartTime = new JLabel("Start Hr");
+		lblStartTime = new JLabel("Drop-off Hr");
 		lblStartTime.setForeground(Color.WHITE);
 		lblStartTime.setFont(new Font("Lantinghei TC", Font.PLAIN, 12));
 		lblStartTime.setBounds(16, 174, 70, 23);
 		desktopPane.add(lblStartTime);
 		
-		lblEndTime = new JLabel("End Hr");
+		lblEndTime = new JLabel("Pick-up Hr");
 		lblEndTime.setForeground(Color.WHITE);
 		lblEndTime.setFont(new Font("Lantinghei TC", Font.PLAIN, 12));
 		lblEndTime.setBounds(16, 209, 70, 23);
