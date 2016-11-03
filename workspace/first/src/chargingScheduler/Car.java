@@ -27,7 +27,9 @@ public class Car {
 	public int getStartTime() {
 		return prefStart;
 	}
-	
+	public int getEndTime() {
+		return prefEnd;
+	}
 
 	
 	public String getId() {

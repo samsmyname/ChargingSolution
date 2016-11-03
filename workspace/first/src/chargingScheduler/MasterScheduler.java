@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.jgap.InvalidConfigurationException;
 
+import chargingScheduler.ACO.ACO;
 import isula.aco.exception.ConfigurationException;
 import isula.aco.exception.InvalidInputException;
 import jade.core.AID;
@@ -80,6 +81,6 @@ public class MasterScheduler extends Agent {
 	}
 
 	private void antColonyAlgorithm() {
-			//new ACOProblem(cars);
+			new ACO(cars);
 	}
 }
