@@ -27,9 +27,9 @@ public class Pheremones {
 
 	}
 	
-	public void addPheremone(int t, int c)
+	public void addPheremone(int t, int c, int amount)
 	{
-		path[t][c] += 1;
+		path[t][c] += amount;
 	}
 	
 	public void evaperate()
@@ -38,9 +38,9 @@ public class Pheremones {
 		{
 			for (int j = 0; j < numberCars; j++)
 			{
-				if (path[i][j] > 1)
+				if (path[i][j] > 5)
 				{
-					path[i][j] -=1;
+					path[i][j] -= 1;
 				}
 			}
 		}

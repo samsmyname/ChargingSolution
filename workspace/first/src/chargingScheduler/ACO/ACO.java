@@ -29,7 +29,7 @@ public class ACO {
 	{
 		int numAnts = 30;
 		
-		for (int i = 0; i<10; i++)
+		for (int i = 0; i<5; i++)
 		{
 			for (int a = 0; a<numAnts; a++)
 			{
@@ -42,7 +42,7 @@ public class ACO {
 					bestPathFitness = ant.pathCost();
 				}
 				
-				pheremonePath.mergePaths(ant.antPheremones);
+				//pheremonePath.mergePaths(ant.antPheremones);
 			}
 			
 			pheremonePath.evaperate();
@@ -59,6 +59,16 @@ public class ACO {
 					System.out.print(j);
 			}
 
+		}
+		System.out.println("");
+		System.out.print("Pheremones:");
+		for (int i = 0; i<24; i++)
+		{
+			for (int j = 0; j<cars.size() + 1; j++)
+			{
+					System.out.print(" " + pheremonePath.getAmount(i, j) + " ");
+			}
+			System.out.println("");
 		}
 	}
 

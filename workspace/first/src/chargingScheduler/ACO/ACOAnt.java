@@ -32,8 +32,18 @@ public class ACOAnt {
 		{
 			int carSelected = weightedCarChoice(t);
 			System.out.println("time: " + t + "car: " + carSelected);
-			antPheremones.addPheremone(t, carSelected);	//Add pheremone to this path
 			myPath[t][carSelected] = 1;	//Set the path of this ant
+		}
+		
+		for (int t = 0; t<24; t++)
+		{
+			for (int c = 0; c<cars.size() ; c++)
+			{
+				if (myPath[t][c] == 1)
+					antPheremones.addPheremone(t, c, pathCost());	//Add pheremone to this path
+			}
+			
+			
 		}
 		
 	}
@@ -162,14 +172,14 @@ public class ACOAnt {
 		double totalWeight = 0.0d;
 		for (int c = 0; c<cars.size()+1; c++)
 		{
-			totalWeight += antPheremones.getAmount(t,c);
+			totalWeight += antPheremones.getAmount(t,c) + 5;
 		}
 		// Now choose a random item
 		int randomIndex = -1;
 		double random = Math.random() * totalWeight;
 		for (int i = 0; i < cars.size() + 1; ++i)
 		{
-		    random -= antPheremones.path[t][i];
+		    random -= antPheremones.path[t][i] + 5;
 		    if (random <= 0.0d)
 		    {
 		        randomIndex = i;
