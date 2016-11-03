@@ -34,12 +34,13 @@ import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.TableModel;
 import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
 
 public class UI extends JFrame {
 
 	private JPanel contentPane;
 	private final JLabel lblNewLabel = new JLabel("Car Charging Scheduler");
-	private final JLabel lblCarRegNum = new JLabel("Car Number");
+	private final JLabel lblCarRegNum = new JLabel("Car ID");
 	private final Action action = new SwingAction();
 	private static JDesktopPane desktopPane;
 	private final JButton addCarBtn = new JButton("Add Request");
@@ -66,6 +67,8 @@ public class UI extends JFrame {
 	private JLabel carSchedules;
 	SystemStart ss;
 	private final static JLabel lblErr = new JLabel("");
+	private final JToggleButton tglBtn = new JToggleButton("Genetic Alg.");
+	private final JLabel lblClickToChange = new JLabel("Click to change the Algorithm");
 	
 	
 	/**
@@ -221,7 +224,26 @@ public class UI extends JFrame {
 		lblErr.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
 		lblErr.setBounds(6, 6, 582, 36);
 		desktopPane.add(lblErr);
+		tglBtn.setBounds(16, 396, 108, 29);
 		
+		desktopPane.add(tglBtn);
+		lblClickToChange.setForeground(Color.WHITE);
+		lblClickToChange.setFont(new Font("Lantinghei TC", Font.PLAIN, 12));
+		lblClickToChange.setBounds(16, 361, 206, 23);
+		
+		desktopPane.add(lblClickToChange);
+		
+		tglBtn.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e) { 
+				  if(tglBtn.getText()=="Genetic Alg."){
+					  MasterScheduler.isGeneticAlg = true;
+			          tglBtn.setText("Ant Colony Optimisation");
+				  }else{
+					  MasterScheduler.isGeneticAlg = false;
+			          tglBtn.setText("Genetic Alg.");
+				  }
+		         }
+		      }); 
 		
 		addCarBtn.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {   

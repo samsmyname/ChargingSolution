@@ -21,6 +21,7 @@ public class MasterScheduler extends Agent {
 
 	int numberCars;
 	List<Car> cars = new ArrayList<Car>();
+	static boolean isGeneticAlg = true;
 
 	/* 
 	 * @see jade.core.Agent#setup()
@@ -53,7 +54,12 @@ public class MasterScheduler extends Agent {
 					 Car newCar = new Car( split[0], Integer.parseInt(prefStart[0]), Integer.parseInt(prefEnd[0]) );
 					 cars.add(newCar);
 					 
-					 geneticAlgorithm();
+					 if(isGeneticAlg){
+						 geneticAlgorithm();
+					 }else{
+						 antColonyAlgorithm();
+					 }
+					 
 					 
 				} else {
 					block();
