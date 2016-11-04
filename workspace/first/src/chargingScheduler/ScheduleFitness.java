@@ -22,7 +22,7 @@ public class ScheduleFitness extends FitnessFunction{
 	protected double evaluate(IChromosome a_subject) {
 		// For best possible schedule, fitness should be 100 with current weightings and settings.
 		
-		int maxFitness = 100;
+		int maxFitness = 300;
 		int fitness = maxFitness; //Arbitrary starting value
 		
 		int i = 1; // The car value that appears in the gene.
@@ -70,7 +70,7 @@ public class ScheduleFitness extends FitnessFunction{
 			int diff = Math.abs(hoursScheduledCount - hoursRequired);
 			if (diff != 0)
 			{
-				double perc = (double)diff / (totalHours - hoursRequired) * 100;
+				double perc = (double)diff / (totalHours - hoursRequired) * maxFitness;
 				carFitness -= perc;
 			}	
 			
@@ -80,25 +80,25 @@ public class ScheduleFitness extends FitnessFunction{
 				hoursGivenString += hoursGiven[j];
 				solutionString += (int)getCarAtGene(a_subject,j);
 				solutionString += " ";
-				if ((int)getCarAtGene(a_subject,j) == hoursGiven[j] )
-				{
-					
-				}
 				
-					if ((int)getCarAtGene(a_subject,j) != hoursGiven[j] )
+				if((int)getCarAtGene(a_subject,j) == i)
+				{
+					if (hoursGiven[j] == i)
 					{
-						if ((int)getCarAtGene(a_subject,j) == i || hoursGiven[j] == i)
-						{
-							carFitness -= Math.abs((c.prefStart-j)/3);
-						}
-					}				
+						carFitness -= Math.abs((c.prefStart-j));
+					}
+					else
+					{
+						carFitness -= Math.abs((c.prefStart-j))*2;
+					}
+				}
 			}
 			
 			// Subtract carfitness from totalfitness
 			fitness -= (100-carFitness);
 			
 			// test output
-			System.out.println(solutionString + " " + " " + carFitness);
+			System.out.println(c.prefStart + " " + solutionString + " " + " " + carFitness);
 			
 			// Increment which car
 			i++;
