@@ -27,6 +27,9 @@ public class CarAgent extends Agent{
 	private String carRegNum;
 	private String startTime;
 	private String endTime;
+	public String chargeCurrent;
+	public String chargeMax;
+	
 	private int carLoad = 20;
 	private TickerBehaviour counter;
 	public static ArrayList carRegList=new ArrayList<String>() ;
