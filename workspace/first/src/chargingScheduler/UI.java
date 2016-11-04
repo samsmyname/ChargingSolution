@@ -69,6 +69,7 @@ public class UI extends JFrame {
 	private final static JLabel lblErr = new JLabel("");
 	private final JToggleButton tglBtn = new JToggleButton("Genetic Alg.");
 	private final JLabel lblClickToChange = new JLabel("Click to change the Algorithm");
+	private JLabel statusTxt;
 	
 	
 	/**
@@ -233,6 +234,12 @@ public class UI extends JFrame {
 		
 		desktopPane.add(lblClickToChange);
 		
+		statusTxt = new JLabel("");
+		statusTxt.setForeground(Color.WHITE);
+		statusTxt.setFont(new Font("Lantinghei TC", Font.PLAIN, 12));
+		statusTxt.setBounds(16, 469, 206, 23);
+		desktopPane.add(statusTxt);
+		
 		tglBtn.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e) { 
 				  if(tglBtn.getText()=="Genetic Alg."){
@@ -250,12 +257,16 @@ public class UI extends JFrame {
 	        	String startTime = new SimpleDateFormat("HH:mm").format(startTimeSpinner.getValue());
 	        	String endTime = new SimpleDateFormat("HH:mm").format(endTimeSpinner.getValue());
 	            String data = "Car Id:" + carRegNumLbl.getText();
+	            data += ", " +" Cur Charge:"+ chargeCurrent.getText();
+	            data += ", " +" Max Charge:"+ chargeMax.getText();
 	            data += ", " +" Start Time:"+ startTime;//startTimeSpinner.getValue();  
 	            data +=" , " + " End Time:" +endTime;//endTimeSpinner.getValue();
-	           // statusLabel.setText(data);    
+	            statusTxt.setText(data);    
 	            
 	            //Construct a CarAgent after pressing Send Button
 	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime);
+	            carAgent.chargeCurrent = chargeCurrent.getText();
+	            carAgent.chargeMax = chargeMax.getText();
 	            carAgent.StartCarAgent();
 	            
 	            System.out.println(carRegNumLbl.getText() +"----"+startTime + " : "+endTime);
