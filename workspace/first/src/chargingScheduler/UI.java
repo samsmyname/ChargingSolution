@@ -53,6 +53,7 @@ public class UI extends JFrame {
 	private JSpinner endTimeSpinner;
 	private JLabel lblStartTime;
 	private JLabel lblEndTime;
+	private int i=0;
 	
 	private JTable requestTable = new JTable();
 	private DefaultTableModel tableModel;
@@ -101,7 +102,7 @@ public class UI extends JFrame {
 	}
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 604, 773);
+		setBounds(100, 100, 703, 773);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -184,12 +185,15 @@ public class UI extends JFrame {
 		requestTable = new JTable(new DefaultTableModel(new Object[]{"CAR NUMBER"},0));
 		reModel = (DefaultTableModel) requestTable.getModel();
 		requestTable.setBounds(280, 37, 308, 160);
+		reModel.addColumn("Start Time");
+        reModel.addColumn("End Time");
+        reModel.addColumn("Current Charge");
 		
 		JScrollPane scrReq = new JScrollPane(requestTable,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		
-		scrReq.setBounds(280, 85, 308, 160);
+		scrReq.setBounds(280, 85, 407, 160);
 		desktopPane.add(scrReq);
 		
 		
@@ -206,7 +210,7 @@ public class UI extends JFrame {
 		sheduleTable.setBounds(278, 242, 310, 460);
 		
 		//desktopPane.add(sheduleTable);
-		scr.setBounds(278, 290, 310, 422);
+		scr.setBounds(278, 290, 409, 422);
 		desktopPane.add(scr);
 		
 		requests = new JLabel("Requests");
@@ -253,14 +257,15 @@ public class UI extends JFrame {
 		      }); 
 		
 		addCarBtn.addActionListener(new ActionListener() {
+			
 	         public void actionPerformed(ActionEvent e) {   
 	        	String startTime = new SimpleDateFormat("HH:mm").format(startTimeSpinner.getValue());
 	        	String endTime = new SimpleDateFormat("HH:mm").format(endTimeSpinner.getValue());
 	            String data = "Car Id:" + carRegNumLbl.getText();
-	            data += ", " +" Cur Charge:"+ chargeCurrent.getText();
-	            data += ", " +" Max Charge:"+ chargeMax.getText();
-	            data += ", " +" Start Time:"+ startTime;//startTimeSpinner.getValue();  
-	            data +=" , " + " End Time:" +endTime;//endTimeSpinner.getValue();
+	            data += "\r\n " +" Cur Charge:"+ chargeCurrent.getText();
+	            data += "\r\n " +" Max Charge:"+ chargeMax.getText();
+	            data += "\r\n" +" Start Time:"+ startTime;//startTimeSpinner.getValue();  
+	            data +="\r\n" + " End Time:" +endTime;//endTimeSpinner.getValue();
 	            statusTxt.setText(data);    
 	            
 	            //Construct a CarAgent after pressing Send Button
@@ -270,10 +275,16 @@ public class UI extends JFrame {
 	            carAgent.StartCarAgent();
 	            
 	            System.out.println(carRegNumLbl.getText() +"----"+startTime + " : "+endTime);
-	            reModel.addRow(new Object[]{carRegNumLbl.getText()+"    "+startTime + " : "+endTime });
-	            
 	           
-					
+	            reModel.addRow(new Object[]{carRegNumLbl.getText()});
+	            
+	            reModel.setValueAt(startTime, i, 1);
+	            reModel.setValueAt(endTime, i, 2);
+	            reModel.setValueAt(chargeCurrent.getText(), i, 3);
+	            
+	            
+	            
+	            i++;
 	         }
 	      }); 
 	}
