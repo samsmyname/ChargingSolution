@@ -53,7 +53,8 @@ public class MasterScheduler extends Agent {
 					 String curr = split[3];
 					 String max = split[4];
 					 
-					 Car newCar = new Car( split[0], Integer.parseInt(prefStart[0]), Integer.parseInt(prefEnd[0]), Integer.parseInt(curr), Integer.parseInt(max) );
+					 
+					 Car newCar = new Car( split[0], Integer.parseInt(prefStart[0]), Integer.parseInt(prefEnd[0]) );
 					 cars.add(newCar);
 					 
 					 if(isGeneticAlg){

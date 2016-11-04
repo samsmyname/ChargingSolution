@@ -30,6 +30,7 @@ public class ScheduleFitness extends FitnessFunction{
 		{
 			
 			// Setup variables
+			int chargeSpeed = 100; //Amount of charge per hour
 			int hoursRequired = 0;
 			int totalHours = 24;
 			int hoursScheduledCount = numberOfHoursScheduled(a_subject, i);
@@ -42,7 +43,6 @@ public class ScheduleFitness extends FitnessFunction{
 			
 			if (c.prefEnd < c.prefStart)
 			{
-				hoursRequired = (24 - c.prefStart) + c.prefEnd;
 				for(int j = 0; j<24; j++)
 				{
 					if(j<=c.prefEnd || j>c.prefStart)
@@ -52,7 +52,6 @@ public class ScheduleFitness extends FitnessFunction{
 				}
 			} else
 			{
-				hoursRequired = c.prefEnd - c.prefStart;
 				for(int j = 0; j<24; j++)
 				{
 					if(j<=c.prefEnd && j>c.prefStart)
@@ -63,7 +62,7 @@ public class ScheduleFitness extends FitnessFunction{
 			}
 			
 			//TEMP: Assume car needs half as many hours to charge as hours given
-			hoursRequired /= 2;
+			hoursRequired = (c.chargeMax - c.chargeCurrent)/chargeSpeed;
 			
 			
 			// Compare number of hours to hours required
@@ -98,7 +97,7 @@ public class ScheduleFitness extends FitnessFunction{
 			fitness -= (100-carFitness);
 			
 			// test output
-			System.out.println(c.prefStart + " " + solutionString + " " + " " + carFitness);
+			System.out.println(hoursRequired + " " + solutionString + " " + " " + carFitness);
 			
 			// Increment which car
 			i++;

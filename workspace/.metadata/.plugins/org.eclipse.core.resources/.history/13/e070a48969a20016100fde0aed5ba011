@@ -49,8 +49,6 @@ public class CarAgent extends Agent{
 		this.carRegNum = carRegNum;
 		this.setStartTime(startTime);
 		this.endTime = endTime;
-		this.chargeCurrent = chargeC;
-		this.chargeMax = chargeM;
 		carRegList.add(carRegNum);
 	}
 

@@ -269,7 +269,7 @@ public class UI extends JFrame {
 	            statusTxt.setText(data);    
 	            
 	            //Construct a CarAgent after pressing Send Button
-	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime, chargeCurrent.getText(), chargeMax.getText());
+	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime, chargeCurrent.getText(), chargeMax.getText())
 	            carAgent.StartCarAgent();
 	            
 	            System.out.println(carRegNumLbl.getText() +"----"+startTime + " : "+endTime);

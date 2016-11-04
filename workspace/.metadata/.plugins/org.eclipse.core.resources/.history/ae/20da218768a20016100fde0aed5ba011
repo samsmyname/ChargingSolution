@@ -17,5 +17,9 @@ public class Car {
 		this.prefEnd = prefEnd;
 		
 	}
+	
+	public Car(String _AID, int chargeCurrent, int chargeMax, int freeStart, int freeEnd){
+		
+	}
 
 }

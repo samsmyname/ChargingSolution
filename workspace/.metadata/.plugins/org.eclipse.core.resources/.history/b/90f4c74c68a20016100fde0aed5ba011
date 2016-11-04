@@ -27,8 +27,8 @@ public class CarAgent extends Agent{
 	private String carRegNum;
 	private String startTime;
 	private String endTime;
-	private String chargeCurrent;
-	private String chargeMax;
+	public String chargeCurrent;
+	public String chargeMax;
 	
 	private int carLoad = 20;
 	private TickerBehaviour counter;
@@ -45,12 +45,10 @@ public class CarAgent extends Agent{
 	 * @CarAgent 
 	 * 	- Construct CarAgent with user preference
 	 */
-	public CarAgent(String carRegNum, String startTime, String endTime, String chargeC, String chargeM) {
+	public CarAgent(String carRegNum, String startTime, String endTime) {
 		this.carRegNum = carRegNum;
 		this.setStartTime(startTime);
 		this.endTime = endTime;
-		this.chargeCurrent = chargeC;
-		this.chargeMax = chargeM;
 		carRegList.add(carRegNum);
 	}
 
@@ -71,8 +69,6 @@ public class CarAgent extends Agent{
 		passParam[0] = carRegNum;
 		passParam[1] = startTime;
 		passParam[2] = endTime;
-		passParam[3] = chargeCurrent;
-		passParam[4] = chargeMax;
 
 		try {
 			// Create and start an agent of class CarAgent
@@ -106,7 +102,7 @@ public class CarAgent extends Agent{
 		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 		Object[] args = getArguments();
 
-		msg.setContent(args[0] + "," + args[1] + "," + args[2] + "," + args[3] + "," + args[4]);
+		msg.setContent(args[0] + "," + args[1] + "," + args[2]);
 		msg.addReceiver(new AID("MasterScheduler", AID.ISLOCALNAME));
 		send(msg);
 

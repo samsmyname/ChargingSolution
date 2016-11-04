@@ -27,8 +27,8 @@ public class CarAgent extends Agent{
 	private String carRegNum;
 	private String startTime;
 	private String endTime;
-	private String chargeCurrent;
-	private String chargeMax;
+	public String chargeCurrent;
+	public String chargeMax;
 	
 	private int carLoad = 20;
 	private TickerBehaviour counter;
@@ -45,12 +45,10 @@ public class CarAgent extends Agent{
 	 * @CarAgent 
 	 * 	- Construct CarAgent with user preference
 	 */
-	public CarAgent(String carRegNum, String startTime, String endTime, String chargeC, String chargeM) {
+	public CarAgent(String carRegNum, String startTime, String endTime) {
 		this.carRegNum = carRegNum;
 		this.setStartTime(startTime);
 		this.endTime = endTime;
-		this.chargeCurrent = chargeC;
-		this.chargeMax = chargeM;
 		carRegList.add(carRegNum);
 	}
 
