@@ -61,7 +61,7 @@ public class MasterScheduler extends Agent {
 					 
 					 if(isGeneticAlg){
 						 geneticAlgorithm();
-					 }else{
+					}else{
 						 antColonyAlgorithm();
 					 }
 					 
@@ -87,9 +87,12 @@ public class MasterScheduler extends Agent {
 	}
 
 	private void antColonyAlgorithm() {
-		new ACO(cars);
-		
-
+		try {
+			new ACO(cars);
+		} catch (ConfigurationException e) {
+			System.out.println("***** Exception occured on ACOAlgorithm() *****");
+			e.printStackTrace();
+		}
 	}
-
 }
+
