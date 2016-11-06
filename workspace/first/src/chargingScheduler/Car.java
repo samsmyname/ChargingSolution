@@ -17,5 +17,16 @@ public class Car {
 		this.prefEnd = prefEnd;
 		
 	}
+	public int getStartTime() {
+		return prefStart;
+	}
+	public int getEndTime() {
+		return prefEnd;
+	}
+
+	
+	public String getId() {
+		return AID;
+	}
 
 }

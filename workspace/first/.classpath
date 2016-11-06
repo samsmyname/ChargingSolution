@@ -4,5 +4,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="jade.jar"/>
 	<classpathentry kind="lib" path="jgap.jar"/>
+	<classpathentry kind="lib" path="lib/aco.jar"/>
+	<classpathentry kind="lib" path="lib/commons-math3-3.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/jade.jar"/>
+	<classpathentry kind="lib" path="lib/jgap.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
