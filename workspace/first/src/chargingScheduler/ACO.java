@@ -56,13 +56,15 @@ public class ACO {
 		for (int i = 0; i<24; i++)
 		{
 			
-			for (int j = 0; j<cars.size() + 1; j++)
+			for (int path = 0; path<cars.size() + 1; path++)
 			{
 				
-				if (bestPath[i][j] == 1)
-					System.out.print(j + " ") ;
+				if (bestPath[i][path] == 1)
+					System.out.print(path + " ") ;
 			}
-			UI.displaySchedules(j);
+			
+			
+			UI.displaySchedules(path);
 		}
 		
 
