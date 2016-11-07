@@ -247,11 +247,13 @@ public class UI extends JFrame {
 		tglBtn.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e) { 
 				  if(tglBtn.getText()=="Genetic Alg."){
-					  MasterScheduler.isGeneticAlg = true;
-			          tglBtn.setText("ACO Alg.");
-				  }else{
 					  MasterScheduler.isGeneticAlg = false;
+			          tglBtn.setText("ACO Alg.");
+			          System.out.println("Enable isGeneticAlg  -----> "+ MasterScheduler.isGeneticAlg);
+				  }else{
+					  MasterScheduler.isGeneticAlg = true;
 			          tglBtn.setText("Genetic Alg.");
+			          System.out.println("Enable ACO  -----> "+ MasterScheduler.isGeneticAlg);
 				  }
 		         }
 		      }); 
@@ -338,13 +340,13 @@ public class UI extends JFrame {
 						//System.out.println("------------> "+carNum);
 						
 					}else{
-						//carNum += "Empty";
+						carNum += "----";
 						//scheduleTableModel.addRow(new Object[]{carNum});
 						//System.out.println("------------> "+carNum);
 					}
 				}
 	    		
-	    		System.out.println("------------> "+i);
+	    		System.out.println("isGeneticAlg: "+MasterScheduler.isGeneticAlg+"------------> "+i);
 	    		scheduleTableModel.addRow(new Object[]{carNum});
 	    		
 	    	}

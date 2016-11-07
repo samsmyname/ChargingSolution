@@ -15,6 +15,7 @@ public class ACO {
 	Pheremones pheremonePath;
 
 	public ACO(List<Car> cars) {
+		System.out.println("*************ACO*************");
 		this.cars = cars;
 		matrix = new int[24][cars.size() + 1];
 		bestPath = new int[24][cars.size() + 1];

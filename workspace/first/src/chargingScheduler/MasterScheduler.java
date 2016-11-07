@@ -14,58 +14,66 @@ import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
 
 /**
- * @MasterScheduler
- *  - Collects requirements and preferences from other agents (i.e. from car agents)
- *  - Produces a coordinated schedule for all the cars (can use e.g. KBR, GA, ACO or other intelligent search/optimisation/reasoning techniques from the unit)
- *  - Sends the individual schedules to car agents 
+ * @MasterScheduler - Collects requirements and preferences from other agents
+ *                  (i.e. from car agents) - Produces a coordinated schedule for
+ *                  all the cars (can use e.g. KBR, GA, ACO or other intelligent
+ *                  search/optimisation/reasoning techniques from the unit) -
+ *                  Sends the individual schedules to car agents
  */
 
 public class MasterScheduler extends Agent {
 
 	int numberCars;
 	List<Car> cars = new ArrayList<Car>();
-	static boolean isGeneticAlg = true;
+	static boolean isGeneticAlg;
 
-	/* 
+	/*
 	 * @see jade.core.Agent#setup()
-	 * @setup
-	 *  	- Recieve messages from CarAgent
+	 * 
+	 * @setup - Recieve messages from CarAgent
 	 */
 	protected void setup() {
-		System.out.println("-------------------- Starting MasterSchesuler --------------------");
-	
+		System.out
+				.println("-------------------- Starting MasterSchesuler --------------------");
+
 		/**
-		 * @addBehaviour
-		 *  - CyclicBehaviour receives x message from car agent
-		 *  - Sends reply to x message to Car Agent
+		 * @addBehaviour - CyclicBehaviour receives x message from car agent -
+		 *               Sends reply to x message to Car Agent
 		 */
 		// Recieve from Car Agent
 		addBehaviour(new CyclicBehaviour() {
 			public void action() {
 				ACLMessage msg = receive();
 				if (msg != null) {
-					 System.out.println("Received msg from MasterSchedularAgent: " + msg.getContent());
-					 ACLMessage reply = msg.createReply();
-					 reply.setPerformative( ACLMessage.INFORM );
-					 reply.setContent(" Reply from MSA" ); 
-					 send(reply);
-					 
-					 String[] split = msg.getContent().split(",");
-					 String[] prefStart = split[1].split(":");
-					 String[] prefEnd = split[2].split(":");
-					 String curr = split[3];
-					 String max = split[4];
-					 
-					 Car newCar = new Car( split[0], Integer.parseInt(prefStart[0]), Integer.parseInt(prefEnd[0]), Integer.parseInt(curr), Integer.parseInt(max) );
-					 cars.add(newCar);
-					 
-					 if(isGeneticAlg){
-						 geneticAlgorithm();
-					}else{
-						 antColonyAlgorithm();
+					System.out
+							.println("Received msg from MasterSchedularAgent: "
+									+ msg.getContent());
+					ACLMessage reply = msg.createReply();
+					reply.setPerformative(ACLMessage.INFORM);
+					reply.setContent(" Reply from MSA");
+					send(reply);
+
+					String[] split = msg.getContent().split(",");
+					String[] prefStart = split[1].split(":");
+					String[] prefEnd = split[2].split(":");
+					String curr = split[3];
+					String max = split[4];
+
+					Car newCar = new Car(split[0],
+							Integer.parseInt(prefStart[0]),
+							Integer.parseInt(prefEnd[0]),
+							Integer.parseInt(curr), Integer.parseInt(max));
+					cars.add(newCar);
+
+					if (isGeneticAlg) {
+						System.out.println("+++++++++++ In GENTIC");
+						geneticAlgorithm();
+					} else {
+						System.out.println("+++++++++++ In ACO");
+						antColonyAlgorithm();
+						System.out.println("+++++++++++ In ACO");
 					}
-					 
-					 
+
 				} else {
 					block();
 				}
@@ -81,7 +89,8 @@ public class MasterScheduler extends Agent {
 		try {
 			new JGAP(cars);
 		} catch (InvalidConfigurationException e) {
-			System.out.println("***** Exception occured on geneticAlgorithm() *****");
+			System.out
+					.println("***** Exception occured on geneticAlgorithm() *****");
 			e.printStackTrace();
 		}
 	}
@@ -90,9 +99,9 @@ public class MasterScheduler extends Agent {
 		try {
 			new ACO(cars);
 		} catch (ConfigurationException e) {
-			System.out.println("***** Exception occured on ACOAlgorithm() *****");
+			System.out
+					.println("***** Exception occured on ACOAlgorithm() *****");
 			e.printStackTrace();
 		}
 	}
 }
-
