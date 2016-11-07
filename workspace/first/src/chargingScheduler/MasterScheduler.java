@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jgap.InvalidConfigurationException;
+import chargingScheduler.ACO;
+import isula.aco.exception.ConfigurationException;
+import isula.aco.exception.InvalidInputException;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -56,11 +59,11 @@ public class MasterScheduler extends Agent {
 					 Car newCar = new Car( split[0], Integer.parseInt(prefStart[0]), Integer.parseInt(prefEnd[0]), Integer.parseInt(curr), Integer.parseInt(max) );
 					 cars.add(newCar);
 					 
-					 if(isGeneticAlg){
-						 geneticAlgorithm();
-					 }else{
+					 //if(isGeneticAlg){
+						 //geneticAlgorithm();
+					//}else{
 						 antColonyAlgorithm();
-					 }
+					// }
 					 
 					 
 				} else {
@@ -84,7 +87,12 @@ public class MasterScheduler extends Agent {
 	}
 
 	private void antColonyAlgorithm() {
-
+		try {
+			new ACO(cars);
+		} catch (ConfigurationException e) {
+			System.out.println("***** Exception occured on ACOAlgorithm() *****");
+			e.printStackTrace();
+		}
 	}
-
 }
+
