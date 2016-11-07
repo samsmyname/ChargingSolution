@@ -49,18 +49,23 @@ public class ACO {
 			pheremonePath.evaperate();
 		}
 		
-		
 		System.out.println("Best Path Fitness: " + bestPathFitness);
-		System.out.println("Best Path: ");
+		
+		
+		System.out.println("Best Solution: ");
 		for (int i = 0; i<24; i++)
 		{
+			
 			for (int j = 0; j<cars.size() + 1; j++)
 			{
+				
 				if (bestPath[i][j] == 1)
-					System.out.print(j);
+					System.out.print(j + " ") ;
 			}
-
+			UI.displaySchedules(j);
 		}
+		
+
 		System.out.println("");
 		System.out.print("Pheremones:");
 		for (int i = 0; i<24; i++)
