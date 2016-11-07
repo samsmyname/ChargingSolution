@@ -12,7 +12,7 @@ import org.jgap.impl.DefaultConfiguration;
 import org.jgap.impl.IntegerGene;
 
 public class JGAP {
-	private static final int MAX_ALLOWED_EVOLUTIONS = 100;
+	private static final int MAX_ALLOWED_EVOLUTIONS = 5;
 
 	public JGAP(List<Car> cars) throws InvalidConfigurationException {
 		int numberCars = cars.size();
@@ -43,26 +43,19 @@ public class JGAP {
 
 		for (int i = 0; i < MAX_ALLOWED_EVOLUTIONS; i++) {
 			population.evolve();
+			System.out.println("Best So far: " + population.getFittestChromosome());
 		}
 
 		bestSolutionSoFar = population.getFittestChromosome();
 
-		System.out
-				.println("The best solution contained the following schedule: ");
-
 		String finalSolution = "";
 		for (int i = 0; i < 24; i++) {
 			finalSolution += JGAPFitness.getCarAtGene(bestSolutionSoFar, i) + " ";
+			System.out.print("");
 		}
-		//ChargingSheduleGUI csGUI = new ChargingSheduleGUI(finalSolution);
-		//UI.removeRows();
+		
+		System.out.println("Final Solution: " + finalSolution);
+		
 		UI.displaySchedules(finalSolution);
-		
-		System.out.println("Final Solution: "+finalSolution);
-		
-		
-		System.out.println("");
-		System.out.println("The best solution schedule had the following fitness value: ");
-		System.out.println(myFunc.getFitnessValue(bestSolutionSoFar));
 	}
 }

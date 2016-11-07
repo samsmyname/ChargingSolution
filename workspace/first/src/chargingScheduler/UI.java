@@ -314,7 +314,7 @@ public class UI extends JFrame {
 	
 	public static void displaySchedules(String solutionString){
 		removeRows();
-		System.out.println(scheduleTableModel.getRowCount()+ "ADDING ********** rowCount: "+scheduleTableModel.getRowCount());
+		//System.out.println(scheduleTableModel.getRowCount()+ "ADDING ********** rowCount: "+scheduleTableModel.getRowCount());
 		sheduleTable.setRowHeight(30);
 	        
 	        String[] spot = null;
@@ -334,7 +334,7 @@ public class UI extends JFrame {
 	    		}
 	    		
 	    		for (int j = 0; j < carList.size(); j++) {
-					System.out.println(i);
+					//System.out.println(i);
 					if ( (j+1) == Integer.parseInt(spot[i])) {
 						carNum += carList.get(j).toUpperCase();
 						//scheduleTableModel.addRow(new Object[]{carNum});
@@ -347,7 +347,7 @@ public class UI extends JFrame {
 					}
 				}
 	    		
-	    		System.out.println("isGeneticAlg: "+MasterScheduler.isGeneticAlg+"------------> "+i);
+	    		//System.out.println("isGeneticAlg: "+MasterScheduler.isGeneticAlg+"------------> "+i);
 	    		scheduleTableModel.addRow(new Object[]{carNum});
 	    		
 	    	}

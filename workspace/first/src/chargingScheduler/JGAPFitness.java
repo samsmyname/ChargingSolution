@@ -25,7 +25,9 @@ public class JGAPFitness extends FitnessFunction{
 				hoursGiven[j] = getCarAtGene(a_subject,j);
 			}
 			
-		return Fitness.GetFitness(hoursGiven, cars);
+		double fitnessValue = Fitness.GetFitness(hoursGiven,  cars);
+
+		return fitnessValue;
 	}
 
 	//Returns the ID of the car scheduled at the time a_position

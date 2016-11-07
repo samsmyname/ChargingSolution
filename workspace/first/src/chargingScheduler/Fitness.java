@@ -84,7 +84,7 @@ public class Fitness{
 			fitness -= (100-carFitness);
 			
 			// test output
-			System.out.println(hoursScheduledCount + " " + solutionString + " " + " " + carFitness);
+			//System.out.print("Test Output: " + hoursScheduledCount + " - " + solutionString + " - " + " - " + carFitness + " - ");
 			
 			// Increment which car
 			i++;

@@ -64,9 +64,9 @@ public class ACO {
 					finalSolution += path + " ";
 					System.out.print(path);
 				}
-				System.out.println("");
+				
 			}
-			
+			System.out.println("");
 			
 			
 			
