@@ -114,6 +114,7 @@ public class UI extends JFrame {
 		contentPane.add(lblNewLabel, BorderLayout.NORTH);
 		
 		desktopPane = new JDesktopPane();
+		desktopPane.setBackground(Color.BLUE);
 		contentPane.add(desktopPane, BorderLayout.CENTER);
 		
 		addCarBtn.setBounds(16, 265, 108, 29);
