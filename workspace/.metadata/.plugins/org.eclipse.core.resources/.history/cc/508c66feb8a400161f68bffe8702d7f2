@@ -1,0 +1,38 @@
+package chargingScheduler;
+
+import java.util.List;
+
+
+import org.jgap.FitnessFunction;
+import org.jgap.IChromosome;
+
+public class JGAPFitness extends FitnessFunction{
+	
+	private static List<Car> cars;
+	
+	public JGAPFitness( int a_targetAmount, List<Car> cars )
+    {
+		this.cars = cars;
+    }
+	
+	@Override
+	protected double evaluate(IChromosome a_subject) 
+	{
+
+		int[] hoursGiven = new int[24];
+		for (int j = 0; j < 24; j++)
+			{	
+				hoursGiven[j] = getCarAtGene(a_subject,j);
+			}
+		return fitness
+	}
+
+	//Returns the ID of the car scheduled at the time a_position
+	public static int getCarAtGene (IChromosome a_potentialSolution, int a_position)
+	{
+		Integer carAtTime = (Integer)a_potentialSolution.getGene(a_position).getAllele();
+		
+		return carAtTime.intValue();
+	}
+
+}

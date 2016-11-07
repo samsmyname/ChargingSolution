@@ -20,7 +20,7 @@ public class JGAP {
 		Configuration conf = new DefaultConfiguration();
 		Configuration.reset();
 		int targetAmount = 20;
-		FitnessFunction myFunc = new ScheduleFitness(targetAmount, cars);
+		FitnessFunction myFunc = new JGAPFitness(targetAmount, cars);
 
 		conf.setFitnessFunction(myFunc);
 
@@ -52,7 +52,7 @@ public class JGAP {
 
 		String finalSolution = "";
 		for (int i = 0; i < 24; i++) {
-			finalSolution += ScheduleFitness.getCarAtGene(bestSolutionSoFar, i) + " ";
+			finalSolution += JGAPFitness.getCarAtGene(bestSolutionSoFar, i) + " ";
 		}
 		//ChargingSheduleGUI csGUI = new ChargingSheduleGUI(finalSolution);
 		//UI.removeRows();

@@ -49,93 +49,13 @@ public class ACOAnt {
 	
 	public int pathCost()
 	{
-			// For best possible schedule, fitness should be 100 with current weightings and settings.
-			
-			int maxFitness = 100;
-			int fitness = maxFitness; //Arbitrary starting value
-			
-			int i = 1; // The car value that appears in the gene.
-			for (Car c : cars)
-			{
-				
-				// Setup variables
-				int hoursRequired = 0;
-				int totalHours = 24;
-				int hoursScheduledCount = numberOfHoursScheduled(i);
-				int[] hoursGiven = new int[24];
-				int hoursReqCount = 0;
-				int hoursDist = 0;
-				int carFitness = maxFitness;
-				String test = "";
-				String test2 = "";
-				
-				int startTime = c.getStartTime();
-				int endTime = c.getEndTime();
-				
-				
-				
-				if (endTime < startTime)
-				{
-					hoursRequired = (24 - startTime) + endTime;
-					for(int j = 0; j<24; j++)
-					{
-						if(j<=endTime || j>startTime)
-						{
-							hoursGiven[j] = i;
-						}
-					}
-				} else
-				{
-					hoursRequired = endTime - startTime;
-					for(int j = 0; j<24; j++)
-					{
-						if(j<=endTime && j>startTime)
-						{
-							hoursGiven[j] = i;
-						}
-					}
-				}
-				
-				//TEMP: Assume car needs half as many hours to charge as hours given
-				hoursRequired /= 2;
-				
-				// Compare number of hours to hours required
-				int diff = Math.abs(hoursScheduledCount - hoursRequired);
-				if (diff != 0)
-				{
-					double perc = (double)diff / (totalHours - hoursRequired) * 100;
-					carFitness -= perc;
-				}	
-				
-				// Compare hours to given times
-				for (int j = 0; j < 24; j++)
-				{	
-					test += hoursGiven[j];
-					test2 += (int)getCarAtTime(j);
-					if ((int)getCarAtTime(j) == hoursGiven[j] )
-					{
-						
-					}
-					
-						if ((int)getCarAtTime(j) != hoursGiven[j] )
-						{
-							if ((int)getCarAtTime(j) == i || hoursGiven[j] == i)
-							{
-								carFitness -= Math.abs((startTime-j)/3);
-							}
-						}				
-				}
-				
-				// Subtract carfitness from totalfitness
-				fitness -= (100-carFitness);
-				
-				// test output
-				
-				// Increment which car
-				i++;
+		int[] hoursGiven = new int[24];
+		for (int j = 0; j < 24; j++)
+			{	
+				hoursGiven[j] = getCarAtTime(j);
 			}
-			return fitness;
-
+			
+		return (int)Fitness.GetFitness(hoursGiven, cars);
 	}
 	
 	//Returns the number of hours a car is scheduled

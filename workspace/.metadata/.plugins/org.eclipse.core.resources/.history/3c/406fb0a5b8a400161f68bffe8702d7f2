@@ -1,0 +1,90 @@
+package chargingScheduler;
+
+import java.util.List;
+
+
+import org.jgap.FitnessFunction;
+import org.jgap.IChromosome;
+
+public class JGAPFitness extends FitnessFunction{
+	
+	private static List<Car> cars;
+	
+	public JGAPFitness( int a_targetAmount, List<Car> cars )
+    {
+		this.cars = cars;
+    }
+	
+	@Override
+	protected double evaluate(IChromosome a_subject) {
+
+		int[24] hoursGiven;
+			for (int j = 0; j < 24; j++)
+			{	
+				solutionString += (int)getCarAtGene(a_subject,j);
+				solutionString += " ";
+				
+				if((int)getCarAtGene(a_subject,j) == i)
+				{
+					if (hoursGiven[j] == i)
+					{
+						carFitness -= Math.abs((c.prefStart-j));
+					}
+					else
+					{
+						carFitness -= Math.abs((c.prefStart-j))*2;
+					}
+				}
+			}
+			
+			// Subtract carfitness from totalfitness
+			fitness -= (100-carFitness);
+			
+			// test output
+			System.out.println(hoursRequired + " " + solutionString + " " + " " + carFitness);
+			
+			// Increment which car
+			i++;
+		}
+		
+		//Fitness value cannot go lower than 1 or an exception will be thrown.
+		if (fitness<1)		
+			fitness = 1;
+		return fitness;
+	}
+	
+	
+	// Return hours scheduled
+	private String hoursScheduled(IChromosome a_subject, int carID)
+	{
+		String hours = "";
+		for(int i = 0; i < 24; i++)
+		{
+			hours += getCarAtGene(a_subject, i);
+		}
+		return hours;
+	}
+	
+	//Returns the number of hours a car is scheduled
+	private static int numberOfHoursScheduled(IChromosome a_subject, int carID)
+	{
+		int hours = 0;
+		
+		for (int i = 0; i<24; i++)
+		{
+			if (getCarAtGene(a_subject, i) == carID)
+				hours++;
+		}
+		
+		return hours;
+	}
+	
+	//Returns the ID of the car scheduled at the time a_position
+	public static int getCarAtGene (IChromosome a_potentialSolution, int a_position)
+	{
+		Integer carAtTime = (Integer)a_potentialSolution.getGene(a_position).getAllele();
+		
+		return carAtTime.intValue();
+	}
+
+}

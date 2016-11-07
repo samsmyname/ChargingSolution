@@ -1,0 +1,19 @@
+package chargingScheduler;
+
+import java.util.List;
+
+
+import org.jgap.FitnessFunction;
+import org.jgap.IChromosome;
+
+public class ScheduleFitness extends FitnessFunction{
+	
+	private static List<Car> cars;
+	
+	public ScheduleFitness( int a_targetAmount, List<Car> cars )
+    {
+		this.cars = cars;
+    }
+	
+	
+}
