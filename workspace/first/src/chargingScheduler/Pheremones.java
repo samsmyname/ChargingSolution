@@ -40,7 +40,7 @@ public class Pheremones {
 			{
 				if (path[i][j] > 5)
 				{
-					path[i][j] -= 1;
+					path[i][j] -= 5;
 				}
 			}
 		}
