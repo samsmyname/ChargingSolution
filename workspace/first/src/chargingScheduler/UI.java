@@ -340,7 +340,7 @@ public class UI extends JFrame {
 						//System.out.println("------------> "+carNum);
 						
 					}else{
-						carNum += "----";
+						//carNum += "----";
 						//scheduleTableModel.addRow(new Object[]{carNum});
 						//System.out.println("------------> "+carNum);
 					}

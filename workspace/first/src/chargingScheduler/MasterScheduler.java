@@ -25,7 +25,7 @@ public class MasterScheduler extends Agent {
 
 	int numberCars;
 	List<Car> cars = new ArrayList<Car>();
-	static boolean isGeneticAlg;
+	static boolean isGeneticAlg = true;
 
 	/*
 	 * @see jade.core.Agent#setup()
