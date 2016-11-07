@@ -248,7 +248,7 @@ public class UI extends JFrame {
 			  public void actionPerformed(ActionEvent e) { 
 				  if(tglBtn.getText()=="Genetic Alg."){
 					  MasterScheduler.isGeneticAlg = true;
-			          tglBtn.setText("Ant Colony Optimisation");
+			          tglBtn.setText("ACO Alg.");
 				  }else{
 					  MasterScheduler.isGeneticAlg = false;
 			          tglBtn.setText("Genetic Alg.");

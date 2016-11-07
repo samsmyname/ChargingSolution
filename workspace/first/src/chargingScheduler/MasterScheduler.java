@@ -59,11 +59,11 @@ public class MasterScheduler extends Agent {
 					 Car newCar = new Car( split[0], Integer.parseInt(prefStart[0]), Integer.parseInt(prefEnd[0]), Integer.parseInt(curr), Integer.parseInt(max) );
 					 cars.add(newCar);
 					 
-					 //if(isGeneticAlg){
-						 //geneticAlgorithm();
-					//}else{
+					 if(isGeneticAlg){
+						 geneticAlgorithm();
+					}else{
 						 antColonyAlgorithm();
-					// }
+					}
 					 
 					 
 				} else {
