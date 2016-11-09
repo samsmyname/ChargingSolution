@@ -12,7 +12,7 @@ import org.jgap.impl.DefaultConfiguration;
 import org.jgap.impl.IntegerGene;
 
 public class JGAP {
-	private static final int MAX_ALLOWED_EVOLUTIONS = 100;
+	private static final int MAX_ALLOWED_EVOLUTIONS = 500;
 	
 	String finalSolution = "";
 
