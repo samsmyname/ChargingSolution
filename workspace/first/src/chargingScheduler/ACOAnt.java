@@ -10,8 +10,12 @@ public class ACOAnt {
 	int[][] myPath;
 	List<Car> cars;
 	
-	public ACOAnt(List<Car> cars, Pheremones oldPath)
+	double chance;
+	
+	public ACOAnt(List<Car> cars, Pheremones oldPath, double chance)
 	{
+		this.chance = chance;
+		
 		this.cars = cars;
 		antPheremones = oldPath;
 		myPath = new int[24][cars.size()+1];
@@ -34,20 +38,9 @@ public class ACOAnt {
 			myPath[t][carSelected] = 1;	//Set the path of this ant
 		}
 		
-		for (int t = 0; t<24; t++)
-		{
-			for (int c = 0; c<cars.size() + 1 ; c++)
-			{
-				if (myPath[t][c] == 1)
-					antPheremones.addPheremone(t, c, pathCost());	//Add pheremone to this path
-			}
-			
-			
-		}
-		
 	}
 	
-	public int pathCost()
+	public int pathFitness()
 	{
 		int[] hoursGiven = new int[24];
 		for (int j = 0; j < 24; j++)
@@ -55,7 +48,7 @@ public class ACOAnt {
 				hoursGiven[j] = getCarAtTime(j);
 			}
 			
-		return (int)Fitness.GetFitness(hoursGiven, cars);
+		return (int)FitnessACO.GetFitness(hoursGiven, cars);
 	}
 	
 	//Returns the number of hours a car is scheduled
@@ -97,7 +90,7 @@ public class ACOAnt {
 		double random = Math.random() * totalWeight;
 		for (int i = 0; i < cars.size() + 1; i++)
 		{
-		    random -= antPheremones.path[t][i];
+		    random -= antPheremones.checkPheromoneLevel(t,i);
 		    if (random <= 0.0d)
 		    {
 		        randomIndex = i;
@@ -105,9 +98,11 @@ public class ACOAnt {
 		    }
 		}
 		
-		if (Math.random()>= 0.9)
+		if (Math.random()>= chance)
 		{
-			return (int)(Math.random()*(cars.size()+1));
+			int r = (int)(Math.random()*(cars.size()+1));
+			return r;
+			
 		}
 		
 		return randomIndex;

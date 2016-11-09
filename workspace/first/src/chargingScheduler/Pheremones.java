@@ -1,16 +1,21 @@
 package chargingScheduler;
 
 public class Pheremones {
-	int[][] path;
+	private double[][] path;
 	int numberCars;
 	int numberHours;
+	
+	double evap;
+	int bonus;
 	
 	public Pheremones(int numberHours, int numberCars)
 	{
 		this.numberCars = numberCars;
 		this.numberHours = numberHours;
 		
-		path = getBlankSlate(5);
+		evap = 0.75;
+		
+		path = getBlankSlate(1);
 		
 	}
 	
@@ -32,37 +37,77 @@ public class Pheremones {
 		path[t][c] += amount;
 	}
 	
-	public void evaperate()
+	public void updatePathPheromone(ACOAnt[] ants, int[][] bestPath)
 	{
 		for (int i = 0; i< numberHours; i++)
 		{
-			for (int j = 0; j < numberCars; j++)
+			for (int j = 0; j < numberCars + 1; j++)
 			{
-				if (path[i][j] > 5)
+				path[i][j] *= evap;
+			}
+		}
+		
+		for (ACOAnt a : ants)
+		{
+			for (int i = 0; i< numberHours; i++)
+			{
+				for (int j = 0; j < numberCars + 1; j++)
 				{
-					path[i][j] -= 5;
+					if (a.myPath[i][j] == 1)
+					{
+						addPheremone(i, j, a.pathFitness());
+						
+						if (a.myPath[i][j] == bestPath[i][j])
+						{
+							addPheremone(i, j, bonus);
+						}
+					}
+					
 				}
 			}
 		}
 	}
 	
-	public int getAmount(int time, int car)
+	public double getAmount(int time, int car)
 	{
 		return path[time][car];
 	}
 	
-	public int[][] getBlankSlate(int p)
+	public double[][] getBlankSlate(double p)
 	{
-		int[][] slate = new int[numberHours][numberCars + 1];
+		double[][] slate = new double[numberHours][numberCars + 1];
 		
 		for (int i = 0; i< numberHours; i++)
 		{
-			for (int j = 0; j < numberCars; j++)
+			for (int j = 0; j < numberCars + 1; j++)
 			{
 				slate[i][j] = p;
 			}
 		}
 		System.out.println("Slate set");
 		return slate;
+	}
+	
+	public String pheromonesAsString()
+	{
+		String newline = System.getProperty("line.separator");
+		String output = newline;
+		
+		for (int i = 0; i<numberHours; i++)
+		{
+			output += " " + i + " ";
+			for (int j = 0; j<path[i].length; j++)
+			{
+				 output += path[i][j] + " ";
+			}
+			output += newline;
+		}
+		
+		return output;
+	}
+	
+	public double checkPheromoneLevel(int i, int j)
+	{
+		return path[i][j];
 	}
 }

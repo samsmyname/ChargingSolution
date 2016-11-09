@@ -22,7 +22,7 @@ import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
  */
 
 public class CarAgent extends Agent{
-	// FIXME Is CarAgent gets the requirements from the user?
+	
 	private int carId = 0;
 	private String carRegNum;
 	private String startTime;
@@ -34,8 +34,8 @@ public class CarAgent extends Agent{
 	private TickerBehaviour counter;
 	public static ArrayList carRegList=new ArrayList<String>() ;
 	public static ArrayList errorStack = new ArrayList<String>();
-	//List<Car> cars = new ArrayList<Car>();
-
+	
+	private int[] schedule;
 
 	
 	public CarAgent() {
@@ -115,6 +115,25 @@ public class CarAgent extends Agent{
 				ACLMessage msg = receive();
 				if (msg != null) {
 					System.out.println("Received msg from carAgent: "+ msg.getContent());
+					
+					String[] message = msg.getContent().split(" ");
+					
+					if (message[0].equals("schedule"))
+					{
+						schedule = new int[message.length-1];
+						for (int i = 1; i<message.length; i++)
+						{
+							schedule[i-1] = Integer.valueOf(message[i]);
+						}
+						
+						System.out.println("Converted message to int: ");
+						for (int i = 0; i<schedule.length; i++)
+						{
+							System.out.print(schedule[i] + " ");
+						}
+						System.out.println("");
+					}
+					
 				} else {
 					block();
 				}

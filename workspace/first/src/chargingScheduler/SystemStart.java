@@ -24,6 +24,7 @@ Boston, MA  02111-1307, USA.
 package chargingScheduler;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -42,17 +43,14 @@ import jade.wrapper.*;
  */
 
 public class SystemStart {
-	
-	private final static int carAgents = 3;
-	private final static int timeForCharge = 2;
-	private final static int maxLoadCapacity = 60;
-	private final static int[] carBatteryMax = {100, 50, 200};
-	private final static int[] carRequiredCharge = {40, 0, 200};
-	private final static Times[] carTimes = new Times[3];
+
 	private static ServerSocket serverSocket = null;
 	public Profile pMain = null;
 	public static ContainerController mainCtrl = null;
 	public static ArrayList errorStack = new ArrayList<String>();
+	
+	public static MasterScheduler MS;
+	
 
 	/**
 	 * @SystemStart
@@ -67,8 +65,10 @@ public class SystemStart {
 		System.out.println(">>>>>>>>>>>>>>> Starting up a Main Agent...");
 		AgentController agentCtrl = null;
 		try {
-			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[0]);
+			agentCtrl = mainCtrl.createNewAgent("MasterScheduler", MasterScheduler.class.getName(), new Object[1]);
 			agentCtrl.start();
+			
+
 		} catch (StaleProxyException e) {
 			System.out.println("******* Error occured while starting up the agent ******* "+ e);
 			errorStack.add(e.getMessage());

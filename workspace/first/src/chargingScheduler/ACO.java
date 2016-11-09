@@ -7,10 +7,16 @@ import chargingScheduler.Car;
 
 public class ACO {
 	
+	private static final int Iterations = 2000;
+	private static final int AntCount = 200;
+	
 	int[][] matrix;
 	List<Car> cars;
 	int[][] bestPath;
 	int bestPathFitness;
+	int timeSinceBetterPath = 0;
+	
+	double randomChance;
 	
 	Pheremones pheremonePath;
 	
@@ -22,60 +28,80 @@ public class ACO {
 		bestPathFitness = 0;
 		
 		pheremonePath = new Pheremones(24, cars.size());
+		randomChance = 0.75;
 		
-		ACOLoop();
 	}
 	
-	private void ACOLoop()
+	public void adjustConstants(int ph, double pr, double ev)
 	{
-		int numAnts = 30;
+		pheremonePath.bonus = ph;
+		randomChance = pr;
+		pheremonePath.evap = ev;
 		
-		for (int i = 0; i<5; i++)
+	}
+	
+	public void ACOLoop()
+	{
+		System.out.println(" Pheremone Amounts: " + pheremonePath.pheromonesAsString());
+		for (int i = 0; i<Iterations; i++)
 		{
-			for (int a = 0; a<numAnts; a++)
+			ACOAnt[] ants = new ACOAnt[AntCount];
+			
+			for (int a = 0; a<AntCount; a++)
 			{
-				System.out.println("Iteration " + i + "Ant: " + a);
-				ACOAnt ant = new ACOAnt(cars, pheremonePath);
-				ant.FindPath();
-				if (ant.pathCost() > bestPathFitness)
+				ants[a] = new ACOAnt(cars, pheremonePath, randomChance);
+				ants[a].FindPath();
+				if (ants[a].pathFitness() > bestPathFitness)
 				{
-					bestPath = ant.getPath();
-					bestPathFitness = ant.pathCost();
-					System.out.println("Better path cost: " + bestPathFitness);
+					bestPath = ants[a].getPath();
+					bestPathFitness = ants[a].pathFitness();
+					System.out.print("Path cost: " + bestPathFitness);
+					timeSinceBetterPath = 0;
 				}
+				else
+				{
+					timeSinceBetterPath++;			
+					//if (timeSinceBetterPath > 10000)
+						//i=Iterations;
+				}
+				
 				
 			}
 			
-			pheremonePath.evaperate();
+			pheremonePath.updatePathPheromone(ants, bestPath);
+			System.out.println(" Pheremone Amounts: " + pheremonePath.pheromonesAsString());
 		}
 		
-		System.out.println("Best Path Fitness: " + bestPathFitness);
 		
-		String finalSolution = "";
-		System.out.println("Best Solution (ACO): ");
+		
+		System.out.println("Best solution cost: " + bestPathFitness + " Solution: " + bestSolution());
+		UI.displaySchedules(bestSolution());
+
+	}
+	
+	String bestSolution()
+	{
+		return pathToString(bestPath);
+	}
+	
+	String pathToString(int[][] convertPath)
+	{
+		String output ="";
+		
 		for (int i = 0; i<24; i++)
 		{
-			System.out.print("Best Path for time " + i + ": ");
 			for (int path = 0; path<cars.size() + 1; path++)
 			{
 				
-				if (bestPath[i][path] == 1)
+				if (convertPath[i][path] == 1)
 				{
-					finalSolution += path + " ";
-					System.out.print(path);
+					output += path + " ";
 				}
 				
 			}
-			System.out.println("");
-			
-			
-			
-			
 		}
 		
-		
-		UI.displaySchedules(finalSolution);
-
+		return output;
 	}
 
 }

@@ -12,7 +12,9 @@ import org.jgap.impl.DefaultConfiguration;
 import org.jgap.impl.IntegerGene;
 
 public class JGAP {
-	private static final int MAX_ALLOWED_EVOLUTIONS = 5;
+	private static final int MAX_ALLOWED_EVOLUTIONS = 100;
+	
+	String finalSolution = "";
 
 	public JGAP(List<Car> cars) throws InvalidConfigurationException {
 		int numberCars = cars.size();
@@ -48,7 +50,7 @@ public class JGAP {
 
 		bestSolutionSoFar = population.getFittestChromosome();
 
-		String finalSolution = "";
+		
 		for (int i = 0; i < 24; i++) {
 			finalSolution += JGAPFitness.getCarAtGene(bestSolutionSoFar, i) + " ";
 			System.out.print("");

@@ -7,13 +7,12 @@ import java.util.List;
 import org.jgap.FitnessFunction;
 import org.jgap.IChromosome;
 
-public class Fitness{
+public class FitnessACO{
 	
 	public static double GetFitness(int[] solution, List<Car> cars) {
 		// For best possible schedule, fitness should be 300 with current weightings and settings.
 		
-		int maxFitness = 300;
-		int fitness = maxFitness; //Arbitrary starting value
+		int fitness = 0; //Arbitrary starting value
 		
 		int i = 1; // The car value that appears in the gene.
 		for (Car c : cars)
@@ -27,9 +26,6 @@ public class Fitness{
 			int hoursReqCount = 0;
 			int[] hoursGiven = new int[24];
 			int hoursDist = 0;
-			int carFitness = maxFitness;
-			String hoursGivenString = "";
-			String solutionString = "";
 			
 			if (c.prefEnd < c.prefStart)
 			{
@@ -59,39 +55,38 @@ public class Fitness{
 			int diff = Math.abs(hoursScheduledCount - hoursRequired);
 			if (diff != 0)
 			{
-				double perc = (double)diff / (totalHours - hoursRequired) * maxFitness;
-				carFitness -= perc;
-			}	
+				int possibleFitness = 50;
+				possibleFitness -= Math.pow(2, diff);
+				
+				if (possibleFitness > 0)
+					fitness += possibleFitness;
+			}
+			
+			int possibleFitness = 100/hoursRequired;
 			
 			// Compare hours to given times
 			for (int j = 0; j < 24; j++)
 			{	
-				hoursGivenString += hoursGiven[j];
-				solutionString += solution[j];
-				solutionString += " ";
 				
 				if(solution[j] == i)
 				{
 					if (hoursGiven[j] == i)
 					{
-						carFitness -= Math.abs((c.prefStart-j));
+						fitness += possibleFitness;
 					}
 					else
 					{
-						carFitness -= Math.abs((c.prefStart-j))*2;
+						
 					}
 				}
 			}
-			
-			// Subtract carfitness from totalfitness
-			fitness -= (100-carFitness);
-			
-			// test output
-			//System.out.print("Test Output: " + hoursScheduledCount + " - " + solutionString + " - " + " - " + carFitness + " - ");
-			
+
 			// Increment which car
 			i++;
 		}
+		
+		fitness /= cars.size();
+		//System.out.println("Ant fitness: " + fitness);
 		
 		//Fitness value cannot go lower than 1 or an exception will be thrown.
 		if (fitness<1)		

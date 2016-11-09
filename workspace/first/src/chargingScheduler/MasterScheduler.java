@@ -22,10 +22,12 @@ import jade.lang.acl.ACLMessage;
  */
 
 public class MasterScheduler extends Agent {
+	
+	
 
 	int numberCars;
 	List<Car> cars = new ArrayList<Car>();
-	static boolean isGeneticAlg = true;
+	List<AID> AIDList = new ArrayList<AID>();
 
 	/*
 	 * @see jade.core.Agent#setup()
@@ -33,6 +35,8 @@ public class MasterScheduler extends Agent {
 	 * @setup - Recieve messages from CarAgent
 	 */
 	protected void setup() {
+		SystemStart.MS = this;
+		
 		System.out
 				.println("-------------------- Starting MasterSchesuler --------------------");
 
@@ -45,6 +49,7 @@ public class MasterScheduler extends Agent {
 			public void action() {
 				ACLMessage msg = receive();
 				if (msg != null) {
+					AIDList.add(msg.getSender());
 					System.out
 							.println("Received msg from MasterSchedularAgent: "
 									+ msg.getContent());
@@ -65,15 +70,6 @@ public class MasterScheduler extends Agent {
 							Integer.parseInt(curr), Integer.parseInt(max));
 					cars.add(newCar);
 
-					if (isGeneticAlg) {
-						System.out.println("+++++++++++ In GENTIC");
-						geneticAlgorithm();
-					} else {
-						System.out.println("+++++++++++ In ACO");
-						antColonyAlgorithm();
-						System.out.println("+++++++++++ In ACO");
-					}
-
 				} else {
 					block();
 				}
@@ -85,9 +81,10 @@ public class MasterScheduler extends Agent {
 		setup();
 	}
 
-	private void geneticAlgorithm() {
+	public void geneticAlgorithm() {
 		try {
-			new JGAP(cars);
+			JGAP GA =  new JGAP(cars);
+			sendSchedules(GA.finalSolution);
 		} catch (InvalidConfigurationException e) {
 			System.out
 					.println("***** Exception occured on geneticAlgorithm() *****");
@@ -95,13 +92,28 @@ public class MasterScheduler extends Agent {
 		}
 	}
 
-	private void antColonyAlgorithm() {
+	public void antColonyAlgorithm(String ph, String pr, String ev) {
 		try {
-			new ACO(cars);
+			ACO ACO = new ACO(cars);
+			ACO.adjustConstants(Integer.valueOf(ph), Double.valueOf(pr), Double.valueOf(ev));
+			ACO.ACOLoop();
+			sendSchedules(ACO.bestSolution());
 		} catch (ConfigurationException e) {
 			System.out
 					.println("***** Exception occured on ACOAlgorithm() *****");
 			e.printStackTrace();
+		}
+	}
+	
+	public void sendSchedules(String schedule)
+	{
+		for (AID a : AIDList)
+		{
+			ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+			message.addReceiver(a);
+			message.setContent("schedule " + schedule);
+			send(message);
+			
 		}
 	}
 }

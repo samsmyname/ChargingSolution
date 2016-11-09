@@ -40,10 +40,17 @@ public class UI extends JFrame {
 
 	private JPanel contentPane;
 	private final JLabel lblNewLabel = new JLabel("Car Charging Scheduler");
-	private final JLabel lblCarRegNum = new JLabel("Car ID");
+	private final JLabel lblCarRegNum = new JLabel("Car Reg");
 	private final Action action = new SwingAction();
 	private static JDesktopPane desktopPane;
 	private final JButton addCarBtn = new JButton("Add Request");
+	private final JButton useACOBtn = new JButton("Use ACO");
+	private final JButton useGABtn = new JButton("Use GA");
+	private final JButton testBtn = new JButton("Test");
+	private JTextField lblGA = new JTextField();
+	private JTextField lblACOph = new JTextField();
+	private JTextField lblACOpr = new JTextField();
+	private JTextField lblACOev = new JTextField();
 	private JTextField carRegNumLbl;
 	private JLabel lblChargeCurrent;
 	private JLabel label;
@@ -68,8 +75,8 @@ public class UI extends JFrame {
 	private JLabel carSchedules;
 	SystemStart ss;
 	private final static JLabel lblErr = new JLabel("");
-	private final JToggleButton tglBtn = new JToggleButton("Genetic Alg.");
-	private final JLabel lblClickToChange = new JLabel("Click to change the Algorithm");
+	//private final JToggleButton tglBtn = new JToggleButton("Genetic Alg.");
+	//private final JLabel lblClickToChange = new JLabel("Click to change the Algorithm");
 	private JLabel statusTxt;
 	
 	
@@ -118,7 +125,28 @@ public class UI extends JFrame {
 		contentPane.add(desktopPane, BorderLayout.CENTER);
 		
 		addCarBtn.setBounds(16, 265, 108, 29);
+		useACOBtn.setBounds(16, 325, 108, 29);
+		useGABtn.setBounds(16, 425, 108, 29);
+		testBtn.setBounds(16, 565, 108, 29);
+		//lblGA.setBounds(156,365, 50, 29);
+		lblACOph.setBounds(16, 360, 50, 29);
+		lblACOpr.setBounds(66, 360, 50, 29);
+		lblACOev.setBounds(116, 360, 50, 29);
+		
 		desktopPane.add(addCarBtn);
+		desktopPane.add(useACOBtn);
+		desktopPane.add(useGABtn);
+		desktopPane.add(testBtn);
+		//desktopPane.add(lblGA);
+		desktopPane.add(lblACOph);
+		desktopPane.add(lblACOpr);
+		desktopPane.add(lblACOev);
+		
+		lblACOph.setText("100");
+		lblACOpr.setText("0.75");
+		lblACOev.setText("0.5");
+		
+		
 		
 		carRegNumLbl = new JTextField();
 		carRegNumLbl.setBounds(121, 66, 101, 26);
@@ -183,12 +211,12 @@ public class UI extends JFrame {
 		desktopPane.add(lblEndTime);
 		
 		//Request Table
-		requestTable = new JTable(new DefaultTableModel(new Object[]{"CAR NUMBER"},0));
+		requestTable = new JTable(new DefaultTableModel(new Object[]{"Car Reg"},0));
 		reModel = (DefaultTableModel) requestTable.getModel();
 		requestTable.setBounds(280, 37, 308, 160);
 		reModel.addColumn("Start Time");
         reModel.addColumn("End Time");
-        reModel.addColumn("Current Charge");
+        reModel.addColumn("Hours Needed");
 		
 		JScrollPane scrReq = new JScrollPane(requestTable,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -230,14 +258,14 @@ public class UI extends JFrame {
 		lblErr.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
 		lblErr.setBounds(6, 6, 582, 36);
 		desktopPane.add(lblErr);
-		tglBtn.setBounds(16, 396, 108, 29);
+		//tglBtn.setBounds(16, 396, 108, 29);
 		
-		desktopPane.add(tglBtn);
-		lblClickToChange.setForeground(Color.WHITE);
-		lblClickToChange.setFont(new Font("Lantinghei TC", Font.PLAIN, 12));
-		lblClickToChange.setBounds(16, 361, 206, 23);
+		//desktopPane.add(tglBtn);
+		//lblClickToChange.setForeground(Color.WHITE);
+		//lblClickToChange.setFont(new Font("Lantinghei TC", Font.PLAIN, 12));
+		//lblClickToChange.setBounds(16, 361, 206, 23);
 		
-		desktopPane.add(lblClickToChange);
+		//desktopPane.add(lblClickToChange);
 		
 		statusTxt = new JLabel("");
 		statusTxt.setForeground(Color.WHITE);
@@ -245,6 +273,7 @@ public class UI extends JFrame {
 		statusTxt.setBounds(16, 469, 206, 23);
 		desktopPane.add(statusTxt);
 		
+		/*
 		tglBtn.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e) { 
 				  if(tglBtn.getText()=="Genetic Alg."){
@@ -256,6 +285,24 @@ public class UI extends JFrame {
 			          tglBtn.setText("Genetic Alg.");
 			          System.out.println("Enable ACO  -----> "+ MasterScheduler.isGeneticAlg);
 				  }
+		         }
+		      }); 
+		*/
+		useACOBtn.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e) { 
+				  SystemStart.MS.antColonyAlgorithm(lblACOph.getText(), lblACOpr.getText(), lblACOev.getText());
+		         }
+		      }); 
+		
+		useGABtn.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e) { 
+				  SystemStart.MS.geneticAlgorithm();
+		         }
+		      }); 
+		
+		testBtn.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e) { 
+				  Fitness.test();
 		         }
 		      }); 
 		
@@ -271,6 +318,11 @@ public class UI extends JFrame {
 	            data +="\r\n" + " End Time:" +endTime;//endTimeSpinner.getValue();
 	            statusTxt.setText(data);    
 	            
+	            int cC = Integer.valueOf(chargeCurrent.getText());
+	            int cM = Integer.valueOf(chargeMax.getText());
+	            double hoursNeeded =( cM - cC );
+	            hoursNeeded = Math.ceil(hoursNeeded / 100);
+	            
 	            //Construct a CarAgent after pressing Send Button
 	            CarAgent carAgent = new CarAgent(carRegNumLbl.getText(), startTime, endTime, chargeCurrent.getText(), chargeMax.getText());
 	            carAgent.StartCarAgent();
@@ -281,7 +333,7 @@ public class UI extends JFrame {
 	            
 	            reModel.setValueAt(startTime, i, 1);
 	            reModel.setValueAt(endTime, i, 2);
-	            reModel.setValueAt(chargeCurrent.getText(), i, 3);
+	            reModel.setValueAt((int)hoursNeeded, i, 3);
 	            
 	            
 	            
@@ -325,12 +377,12 @@ public class UI extends JFrame {
 	    	//car mapping 
 	    	for(int i=0;i<spot.length;i++){
 	    		
-	    		if((i+1)>=1 && (i+1)<=9 ){
-	    			carNum = "0"+(i+1)+"00" + "  >>>>>  ";
-	    		}else if((i+1)>9){
-	    			carNum = (i+1)+"00"+ "  >>>>>  ";
+	    		if((i)<=9 ){
+	    			carNum = "0"+(i)+":00" + "  >>>>>  ";
+	    		}else if((i)>9){
+	    			carNum = (i)+":00"+ "  >>>>>  ";
 	    		}else{
-	    			carNum = (i+1) + "  >>>>>  ";
+	    			carNum = (i) + "  >>>>>  ";
 	    		}
 	    		
 	    		for (int j = 0; j < carList.size(); j++) {
