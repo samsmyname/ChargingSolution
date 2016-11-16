@@ -236,7 +236,7 @@ statusTxt.setForeground(Color.WHITE);
 statusTxt.setFont(new Font("Lantinghei TC", Font.PLAIN, 12));
 statusTxt.setBounds(16, 469, 206, 23);
 desktopPane.add(statusTxt);
-lblSelectAnAlgoritham = new JLabel("Select an Algoritham");
+lblSelectAnAlgoritham = new JLabel("Select an Algorithm");
 lblSelectAnAlgoritham.setForeground(Color.WHITE);
 lblSelectAnAlgoritham.setFont(new Font("Lantinghei TC", Font.PLAIN, 12));
 lblSelectAnAlgoritham.setBounds(18, 333, 134, 23);
