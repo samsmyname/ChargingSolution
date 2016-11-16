@@ -60,7 +60,7 @@ public class Fitness{
 			if (diff != 0)
 			{
 				double perc = (double)diff / (totalHours - hoursRequired) * maxFitness;
-				carFitness -= perc;
+				carFitness -= perc*5;
 			}	
 			
 			// Compare hours to given times
@@ -78,7 +78,7 @@ public class Fitness{
 					}
 					else
 					{
-						carFitness -= Math.abs((c.prefStart-j))*2;
+						carFitness -= Math.abs((c.prefStart-j))*24;
 					}
 				}
 			}
